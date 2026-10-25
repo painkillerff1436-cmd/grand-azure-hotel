@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Grand Azure Hotel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy: #0a192f;
+      --gold: #d4af37;
+      --gold-lt: #f5d060;
+      --bg: #f0ede6;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2ddd4;
+      --green: #16a34a;
+      --red: #dc2626;
+      --yellow: #d97706;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .admin-header {
+      background: linear-gradient(135deg, var(--navy), #1e3a5c);
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .admin-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .admin-header h1 span {
+      color: var(--gold);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-refresh {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .btn-refresh:hover {
+      background: var(--gold-lt);
+    }
+
+    .server-status {
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #94a3b8;
+      transition: background 0.3s;
+    }
+
+    .status-dot.online {
+      background: #22c55e;
+    }
+
+    .status-dot.offline {
+      background: #ef4444;
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      gap: 0;
+      padding: 1.5rem 2rem 0;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      border: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tab-btn.active {
+      color: var(--navy);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: var(--text);
+    }
+
+    .badge {
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      min-width: 1.4rem;
+      text-align: center;
+    }
+
+    /* ── Content ── */
+    .content {
+      padding: 2rem;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* ── Stats Row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .stat-icon.gold {
+      background: #fef9e7;
+    }
+
+    .stat-icon.navy {
+      background: #e8f0f8;
+    }
+
+    .stat-icon.green {
+      background: #f0fdf4;
+    }
+
+    .stat-icon.red {
+      background: #fef2f2;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    /* ── Table ── */
+    .table-wrapper {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .table-toolbar {
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .table-toolbar h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .search-box {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      outline: none;
+      width: 220px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .search-box:focus {
+      border-color: var(--gold);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th {
+      background: #f8f5f0;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: #faf9f5;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-confirmed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-cancelled {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .tier-silver {
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .tier-gold {
+      color: #b45309;
+      font-weight: 600;
+    }
+
+    .tier-platinum {
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    /* Action buttons */
+    .action-btns {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-sm {
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .btn-confirm {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .btn-confirm:hover {
+      background: #16a34a;
+      color: #fff;
+    }
+
+    .btn-cancel {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .btn-cancel:hover {
+      background: #d97706;
+      color: #fff;
+    }
+
+    .btn-delete {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .btn-delete:hover {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+
+    .empty-state .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    /* Loading spinner */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 3rem;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Toast */
+    .toast-admin {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--navy);
+      color: #fff;
+      padding: 0.9rem 1.4rem;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.35s ease;
+      z-index: 9999;
+    }
+
+    .toast-admin.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ── Login Modal Overlay ── */
+    .login-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(15, 33, 60, 0.96) 0%, rgba(10, 25, 47, 0.99) 100%);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .login-card {
+      background: #ffffff;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 440px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(212, 175, 55, 0.2);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      text-align: center;
+    }
+
+    .login-brand h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--navy);
+      margin: 0.4rem 0 0.2rem;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #b45309;
+      font-weight: 700;
+      display: block;
+    }
+
+    .login-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0.8rem 0 1.5rem;
+      line-height: 1.45;
+    }
+
+    .login-group {
+      text-align: left;
+      margin-bottom: 1.2rem;
+    }
+
+    .login-group label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .login-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: 'Outfit', sans-serif;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .login-group input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+    }
+
+    .btn-login-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), #f5d060);
+      color: var(--navy);
+      border: none;
+      padding: 0.85rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-login-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+    }
+
+    .autofill-hint {
+      margin-top: 1.4rem;
+      background: #f8fafc;
+      border: 1px dashed var(--gold);
+      border-radius: 10px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .autofill-hint:hover {
+      background: #fef9e7;
+    }
+
+    .autofill-hint code {
+      background: #e2e8f0;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .login-footer {
+      margin-top: 1.2rem;
+      font-size: 0.84rem;
+    }
+
+    .login-footer a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .login-footer a:hover {
+      color: var(--navy);
+      text-decoration: underline;
+    }
+
+    /* Admin Accounts panel forms */
+    .admin-forms-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 860px) {
+      .admin-forms-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .admin-card-box {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    .admin-card-box h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .admin-card-box p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .form-field-grp {
+      margin-bottom: 1rem;
+    }
+
+    .form-field-grp label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--text);
+    }
+
+    .form-field-grp input,
+    .form-field-grp select {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: 'Outfit', sans-serif;
+      outline: none;
+    }
+
+    .form-field-grp input:focus,
+    .form-field-grp select:focus {
+      border-color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        padding: 1rem;
+      }
+
+      .tabs {
+        padding: 1rem 1rem 0;
+      }
+
+      .tab-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Admin Header ── -->
+  <header class="admin-header">
+    <h1>🏨 Grand Azure <span>Admin</span></h1>
+    <div class="header-right">
+      <a href="index.html" class="btn-refresh"
+        style="text-decoration:none; background:rgba(255,255,255,0.15); color:#fff;">🏨 View Website</a>
+      <div class="server-status">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-text">Checking...</span>
+      </div>
+      <div id="admin-user-badge"
+        style="display:none; align-items:center; gap: 0.5rem; background: rgba(255,255,255,0.12); padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.82rem;">
+        <span>👤</span>
+        <strong id="admin-username-display" style="color:var(--gold-lt);">admin</strong>
+      </div>
+      <button class="btn-refresh" onclick="loadAll()">🔄 Refresh</button>
+      <button class="btn-refresh" id="btn-logout" onclick="logoutAdmin()"
+        style="display:none; background:#dc2626; color:#fff;" title="Logout from Admin Portal">🚪 Logout</button>
+    </div>
+  </header>
+
+  <!-- ── Tabs ── -->
+  <div class="tabs" id="admin-tabs">
+    <button class="tab-btn active" onclick="switchTab('reservations', this)" id="tab-res">
+      🛏️ Reservations <span class="badge" id="badge-res">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('members', this)" id="tab-mem">
+      👥 Members <span class="badge" id="badge-mem">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('contacts', this)" id="tab-con">
+      📨 Messages <span class="badge" id="badge-con">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('food', this)" id="tab-food">
+      🍽️ Dining Orders <span class="badge" id="badge-food">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('admins', this)" id="tab-adm">
+      ⚙️ Admin Users <span class="badge" id="badge-adm">1</span>
+    </button>
+  </div>
+
+  <!-- ── Content ── -->
+  <div class="content">
+
+    <!-- ── RESERVATIONS TAB ── -->
+    <div id="panel-reservations" class="tab-panel active">
+      <div class="stats-row" id="res-stats"></div>
+      <div class="table-wrapper">
+        <div class="table-toolbar">
+          <h3>All Reservations</h3>
+          <input type="text" class="search-box" placeholder="🔍 Search guest..." id="search-res"
+            oninput="filterTable('res-table', this.value)">
+        </div>
+        <div class="table-scroll">
+          <div class="loading" id="res-loading">
+            <div class="spinner"></div> Loading reservations...
+          </div>
+          <table id="res-table" style="display:none">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Guest Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Room Type</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Adults</th>
+                <th>Add-Ons</th>
+                <th>Total (₹)</th>
+                <th>Status</th>
+                <th>Booked On</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="res-tbody"></tbody>
+          </table>
+          <div class="empty-state" id="res-empty" style="display:none">
+            <div class="icon">🛏️</div>
+            <h3>No Reservations Yet</h3>
+            <p>Reservations submitted from the front-end will appear here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MEMBERS TAB ── -->
+    <div id="panel-members" class="tab-panel">
+      <div class="stats-row" id="mem-stats"></div>
+      <div class="table-wrapper">
+        <div class="table-toolbar">
+          <h3>Registered Members</h3>
+          <input type="text" class="search-box" placeholder="🔍 Search member..." id="search-mem"
+            oninput="filterTable('mem-table', this.value)">
+        </div>
+        <div class="table-scroll">
+          <div class="loading" id="mem-loading">
+            <div class="spinner"></div> Loading members...
+          </div>
+          <table id="mem-table" style="display:none">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Tier</th>
+                <th>Purpose</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="mem-tbody"></tbody>
+          </table>
+          <div class="empty-state" id="mem-empty" style="display:none">
+            <div class="icon">👥</div>
+            <h3>No Members Yet</h3>
+            <p>Members registered from the front-end will appear here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTACTS TAB ── -->
+    <div id="panel-contacts" class="tab-panel">
+      <div class="table-wrapper">
+        <div class="table-toolbar">
+          <h3>Contact Messages</h3>
+          <input type="text" class="search-box" placeholder="🔍 Search name..." id="search-con"
+            oninput="filterTable('con-table', this.value)">
+        </div>
+        <div class="table-scroll">
+          <div class="loading" id="con-loading">
+            <div class="spinner"></div> Loading messages...
+          </div>
+          <table id="con-table" style="display:none">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Subject</th>
+                <th>Department</th>
+                <th>Message</th>
+                <th>Received</th>
+              </tr>
+            </thead>
+            <tbody id="con-tbody"></tbody>
+          </table>
+          <div class="empty-state" id="con-empty" style="display:none">
+            <div class="icon">📨</div>
+            <h3>No Messages Yet</h3>
+            <p>Messages submitted via the contact form will appear here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FOOD ORDERS TAB ── -->
+    <div id="panel-food" class="tab-panel">
+      <div class="stats-row" id="food-stats"></div>
+      <div class="table-wrapper">
+        <div class="table-toolbar">
+          <h3>In-Room Dining Orders</h3>
+          <input type="text" class="search-box" placeholder="🔍 Search room or guest..." id="search-food"
+            oninput="filterTable('food-table', this.value)">
+        </div>
+        <div class="table-scroll">
+          <div class="loading" id="food-loading">
+            <div class="spinner"></div> Loading orders...
+          </div>
+          <table id="food-table" style="display:none">
+            <thead>
+              <tr>
+                <th>Order Ref</th>
+                <th>Room</th>
+                <th>Guest</th>
+                <th>Phone</th>
+                <th>Delivery Time</th>
+                <th>Items Ordered</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Received</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="food-tbody"></tbody>
+          </table>
+          <div class="empty-state" id="food-empty" style="display:none">
+            <div class="icon">🍽️</div>
+            <h3>No Food Orders Yet</h3>
+            <p>Orders placed via the Food Order menu will appear here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ADMIN USERS & SECURITY TAB ── -->
+    <div id="panel-admins" class="tab-panel">
+      <div class="stats-row" id="adm-stats">
+        <div class="stat-card">
+          <div class="stat-icon navy">🛡️</div>
+          <div>
+            <div class="stat-value" id="stat-total-admins">1</div>
+            <div class="stat-label">Active Admin Users</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold">👑</div>
+          <div>
+            <div class="stat-value" id="stat-super-admins">1</div>
+            <div class="stat-label">Super Administrators</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">🔒</div>
+          <div>
+            <div class="stat-value">SHA-256</div>
+            <div class="stat-label">Password Protection</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon yellow">⚡</div>
+          <div>
+            <div class="stat-value">Role-Based</div>
+            <div class="stat-label">Access Control</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <div class="table-toolbar">
+          <h3>Authorized Admin Accounts</h3>
+          <input type="text" class="search-box" placeholder="🔍 Search admin..." id="search-adm"
+            oninput="filterTable('adm-table', this.value)">
+        </div>
+        <div class="table-scroll">
+          <div class="loading" id="adm-loading">
+            <div class="spinner"></div> Loading admins...
+          </div>
+          <table id="adm-table" style="display:none">
+            <thead>
+              <tr>
+                <th># ID</th>
+                <th>Username</th>
+                <th>Role / Department</th>
+                <th>Account Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adm-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Forms Grid: Create Admin & Change Password -->
+      <div class="admin-forms-grid">
+        <!-- 1. Create New Admin Form -->
+        <div class="admin-card-box">
+          <h3>➕ Create New Admin Account</h3>
+          <p>Add authorized staff members or department managers with their own login credentials.</p>
+          <form id="create-admin-form" onsubmit="handleCreateAdmin(event)">
+            <div class="form-field-grp">
+              <label for="new-adm-username">Username <span style="color:var(--red)">*</span></label>
+              <input type="text" id="new-adm-username" required placeholder="e.g. manager_riya" minlength="3"
+                maxlength="30" pattern="[a-zA-Z0-9_]{3,30}">
+            </div>
+            <div class="form-field-grp">
+              <label for="new-adm-role">Role / Department</label>
+              <select id="new-adm-role">
+                <option value="Super Administrator">Super Administrator (Full Access)</option>
+                <option value="Reservations Manager">Reservations Manager</option>
+                <option value="Front Desk Concierge">Front Desk / Concierge</option>
+                <option value="Dining & Kitchen Manager">Dining & Kitchen Manager</option>
+              </select>
+            </div>
+            <div class="form-field-grp">
+              <label for="new-adm-password">Password <span style="color:var(--red)">*</span></label>
+              <input type="password" id="new-adm-password" required placeholder="Min. 6 characters" minlength="6">
+            </div>
+            <div class="form-field-grp">
+              <label for="new-adm-confirm-password">Confirm Password <span style="color:var(--red)">*</span></label>
+              <input type="password" id="new-adm-confirm-password" required placeholder="Re-enter password"
+                minlength="6">
+            </div>
+            <button type="submit" class="btn-sm btn-confirm"
+              style="padding:0.65rem 1.4rem; font-size:0.9rem; margin-top:0.5rem; width:100%; border-radius:8px;">
+              ✨ Create Admin User
+            </button>
+          </form>
+        </div>
+
+        <!-- 2. Change Password Form -->
+        <div class="admin-card-box">
+          <h3>🔑 Change Admin Password</h3>
+          <p>Update password for any existing administrator account.</p>
+          <form id="change-password-form" onsubmit="handleChangePassword(event)">
+            <div class="form-field-grp">
+              <label for="change-adm-username">Select Admin Account <span style="color:var(--red)">*</span></label>
+              <select id="change-adm-username" required></select>
+            </div>
+            <div class="form-field-grp">
+              <label for="change-adm-current">Current Password (optional for super admin)</label>
+              <input type="password" id="change-adm-current" placeholder="Enter current password">
+            </div>
+            <div class="form-field-grp">
+              <label for="change-adm-new">New Password <span style="color:var(--red)">*</span></label>
+              <input type="password" id="change-adm-new" required placeholder="Min. 6 characters" minlength="6">
+            </div>
+            <div class="form-field-grp">
+              <label for="change-adm-confirm">Confirm New Password <span style="color:var(--red)">*</span></label>
+              <input type="password" id="change-adm-confirm" required placeholder="Re-enter new password" minlength="6">
+            </div>
+            <button type="submit" class="btn-sm btn-confirm"
+              style="padding:0.65rem 1.4rem; font-size:0.9rem; margin-top:0.5rem; width:100%; border-radius:8px; background:linear-gradient(135deg, var(--gold), #f5d060); color:var(--navy);">
+              🔒 Update Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════ ADMIN LOGIN MODAL ════ -->
+  <div id="login-modal-overlay" class="login-modal-overlay" style="display: flex;">
+    <div class="login-card">
+      <div class="brand-crest" style="font-size:3rem; margin-bottom:0.2rem;">🏨</div>
+      <h2 style="font-family:'Playfair Display', serif; font-size:1.6rem; color:var(--navy); margin-bottom:0.2rem;">
+        Grand Azure Hotel</h2>
+      <span class="brand-sub">Admin &amp; Staff Portal</span>
+      <p class="login-desc">Sign in with your administrator credentials to access the management dashboard.</p>
+
+      <div id="login-error-alert"
+        style="display:none; background:#fee2e2; border:1.5px solid #ef4444; color:#991b1b; padding:0.75rem 1rem; border-radius:8px; font-size:0.85rem; margin-bottom:1rem; text-align:left;">
+      </div>
+
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="login-group">
+          <label for="login-username">Admin Username</label>
+          <input type="text" id="login-username" required placeholder="Enter username" autocomplete="username">
+        </div>
+        <div class="login-group">
+          <label for="login-password">Password</label>
+          <div style="position:relative;">
+            <input type="password" id="login-password" required placeholder="Enter password"
+              autocomplete="current-password" style="padding-right: 42px; width:100%;">
+            <button type="button" onclick="toggleLoginPassword()"
+              style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:1.1rem; color:#64748b;"
+              title="Show/Hide Password">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-login-submit" class="btn-login-submit">
+          🔐 Sign In to Dashboard
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <a href="index.html">← Return to Grand Azure Website</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast ── -->
+  <div class="toast-admin" id="admin-toast"></div>
+
+  <script src="js/api.js"></script>
+  <script>
+    /* ── Health check ── */
+    async function checkHealth() {
+      try {
+        const dot = document.getElementById('status-dot');
+        const text = document.getElementById('status-text');
+        if (!window.AzureAPI) throw new Error('API client not found');
+
+        const d = await window.AzureAPI.health();
+        if (d && d.success) {
+          dot.className = 'status-dot online';
+          text.textContent = '🟢 Server & DB Connected';
+        } else {
+          dot.className = 'status-dot offline';
+          text.textContent = '🔴 DB Connection Issue';
+        }
+      } catch (err) {
+        const dot = document.getElementById('status-dot');
+        const text = document.getElementById('status-text');
+        if (dot) dot.className = 'status-dot offline';
+        if (text) text.textContent = '🔴 Backend Offline (Port 3001)';
+      }
+    }
+
+    /* ── Toast ── */
+    function toast(msg, ok = true) {
+      const t = document.getElementById('admin-toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.style.background = ok ? '#0a192f' : '#7f1d1d';
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    /* ── Tab switcher ── */
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const targetPanel = document.getElementById('panel-' + name);
+      if (targetPanel) targetPanel.classList.add('active');
+      if (btn) btn.classList.add('active');
+    }
+
+    /* ── Table search filter ── */
+    function filterTable(tableId, query) {
+      const q = (query || '').toLowerCase();
+      document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    /* ── Date formatting ── */
+    function fmtDate(str) {
+      if (!str) return '—';
+      try {
+        return new Date(str).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+      } catch { return String(str); }
+    }
+
+    function fmtDateTime(str) {
+      if (!str) return '—';
+      try {
+        return new Date(str).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      } catch { return String(str); }
+    }
+
+    /* ── Handle Unauthorized Sessions ── */
+    function handleAuthError(err) {
+      if (err && (err.status === 401 || err.status === 403 || (err.message && err.message.toLowerCase().includes('unauthorized')))) {
+        sessionStorage.removeItem('azure_admin_token');
+        sessionStorage.removeItem('azure_admin_user');
+        checkAdminAuth();
+        toast('Session expired or unauthorized. Please sign in.', false);
+        return true;
+      }
+      return false;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       RESERVATIONS (Real Data from Backend)
+       ══════════════════════════════════════════════════════════════ */
+    async function loadReservations() {
+      const loading = document.getElementById('res-loading');
+      const table = document.getElementById('res-table');
+      const empty = document.getElementById('res-empty');
+      if (!loading || !table || !empty) return;
+
+      loading.style.display = 'flex';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      try {
+        const response = await window.AzureAPI.admin.getReservations();
+        const rows = (response && response.data) ? response.data : [];
+
+        document.getElementById('badge-res').textContent = rows.length;
+
+        // Calculate statistics exclusively from real backend data
+        const pending = rows.filter(r => r.status === 'pending').length;
+        const confirmed = rows.filter(r => r.status === 'confirmed').length;
+        const revenue = rows.filter(r => r.status !== 'cancelled').reduce((s, r) => s + (parseFloat(r.total_amount) || 0), 0);
+
+        document.getElementById('res-stats').innerHTML = `
+          <div class="stat-card"><div class="stat-icon gold">🛏️</div><div><div class="stat-value">${rows.length}</div><div class="stat-label">Total Bookings</div></div></div>
+          <div class="stat-card"><div class="stat-icon yellow">⏳</div><div><div class="stat-value">${pending}</div><div class="stat-label">Pending</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-value">${confirmed}</div><div class="stat-label">Confirmed</div></div></div>
+          <div class="stat-card"><div class="stat-icon navy">💰</div><div><div class="stat-value">₹${revenue.toLocaleString('en-IN')}</div><div class="stat-label">Total Revenue</div></div></div>
+        `;
+
+        if (rows.length === 0) {
+          empty.innerHTML = '<div class="icon">📭</div><h3>No reservations found</h3><p>There are no bookings recorded in the database yet.</p>';
+          empty.style.display = 'block';
+        } else {
+          const tbody = document.getElementById('res-tbody');
+          tbody.innerHTML = rows.map(b => `
+            <tr>
+              <td>
+                <strong>#${escapeHtml(b.id)}</strong>
+                ${b.booking_ref ? `<br><code style="font-size:0.72rem; color:#b45309; background:#fef3c7; padding:1px 4px; border-radius:3px;">${escapeHtml(b.booking_ref)}</code>` : ''}
+              </td>
+              <td><strong>${escapeHtml(b.guest_name)}</strong></td>
+              <td><a href="mailto:${escapeHtml(b.guest_email)}" style="color:#0a192f">${escapeHtml(b.guest_email)}</a></td>
+              <td>${escapeHtml(b.guest_phone || '—')}</td>
+              <td><strong>${escapeHtml(b.room_type)}</strong></td>
+              <td>${fmtDate(b.checkin)}</td>
+              <td>${fmtDate(b.checkout)}</td>
+              <td>${escapeHtml(b.adults || 1)}</td>
+              <td style="max-width:130px; font-size:0.78rem">${escapeHtml(b.addons || 'None')}</td>
+              <td>
+                <strong>₹${b.total_amount ? Number(b.total_amount).toLocaleString('en-IN') : '0'}</strong>
+                <div style="font-size:0.73rem; color:#15803d; font-weight:600;">Adv: ₹${b.advance_amount ? Number(b.advance_amount).toLocaleString('en-IN') : '0'}</div>
+              </td>
+              <td><span class="badge-status status-${escapeHtml(b.status || 'pending')}">${escapeHtml(b.status || 'pending')}</span></td>
+              <td style="font-size:0.78rem; white-space:nowrap">${fmtDateTime(b.created_at)}</td>
+              <td>
+                <div class="action-btns">
+                  ${b.status !== 'confirmed' ? `<button class="btn-sm btn-confirm" onclick="updateStatus(${Number(b.id)}, 'confirmed')">✅ Confirm</button>` : ''}
+                  ${b.status !== 'cancelled' ? `<button class="btn-sm btn-cancel" onclick="updateStatus(${Number(b.id)}, 'cancelled')">❌ Cancel</button>` : ''}
+                  <button class="btn-sm btn-delete" onclick="deleteReservation(${Number(b.id)})">🗑️ Delete</button>
+                </div>
+              </td>
+            </tr>
+          `).join('');
+          table.style.display = 'table';
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) {
+          empty.innerHTML = `<div class="icon">⚠️</div><h3>Cannot connect to database</h3><p>${escapeHtml(err.message)}</p>`;
+          empty.style.display = 'block';
+        }
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+    async function updateStatus(id, status) {
+      if (!confirm(`Are you sure you want to change reservation #${id} status to '${status}'?`)) return;
+      try {
+        const result = await window.AzureAPI.admin.updateReservation(id, status);
+        if (result && result.success) {
+          toast(`Reservation #${id} updated to: ${status}`);
+          loadReservations();
+        } else {
+          toast((result && result.message) ? result.message : 'Error updating status', false);
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) toast(`Failed to update reservation: ${err.message}`, false);
+      }
+    }
+
+    async function deleteReservation(id) {
+      if (!confirm(`Are you sure you want to permanently delete reservation #${id}? This will remove it from MySQL.`)) return;
+      try {
+        const result = await window.AzureAPI.admin.deleteReservation(id);
+        if (result && result.success) {
+          toast(`Reservation #${id} permanently deleted.`);
+          loadReservations();
+        } else {
+          toast((result && result.message) ? result.message : 'Error deleting reservation', false);
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) toast(`Failed to delete reservation: ${err.message}`, false);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       MEMBERS (Real Data from Backend)
+       ══════════════════════════════════════════════════════════════ */
+    async function loadMembers() {
+      const loading = document.getElementById('mem-loading');
+      const table = document.getElementById('mem-table');
+      const empty = document.getElementById('mem-empty');
+      if (!loading || !table || !empty) return;
+
+      loading.style.display = 'flex';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      try {
+        const response = await window.AzureAPI.admin.getMembers();
+        const rows = (response && response.data) ? response.data : [];
+
+        document.getElementById('badge-mem').textContent = rows.length;
+
+        const silver = rows.filter(m => m.membership_tier === 'silver').length;
+        const gold = rows.filter(m => m.membership_tier === 'gold').length;
+        const platinum = rows.filter(m => m.membership_tier === 'platinum').length;
+
+        document.getElementById('mem-stats').innerHTML = `
+          <div class="stat-card"><div class="stat-icon navy">👥</div><div><div class="stat-value">${rows.length}</div><div class="stat-label">Total Members</div></div></div>
+          <div class="stat-card"><div class="stat-icon gold">🥈</div><div><div class="stat-value">${silver}</div><div class="stat-label">Silver</div></div></div>
+          <div class="stat-card"><div class="stat-icon gold">🥇</div><div><div class="stat-value">${gold}</div><div class="stat-label">Gold</div></div></div>
+          <div class="stat-card"><div class="stat-icon navy">💎</div><div><div class="stat-value">${platinum}</div><div class="stat-label">Platinum</div></div></div>
+        `;
+
+        if (rows.length === 0) {
+          empty.innerHTML = '<div class="icon">📭</div><h3>No members found</h3><p>No loyalty members are registered in the database.</p>';
+          empty.style.display = 'block';
+        } else {
+          const tbody = document.getElementById('mem-tbody');
+          tbody.innerHTML = rows.map(m => `
+            <tr>
+              <td><strong>#${escapeHtml(m.id)}</strong></td>
+              <td>${escapeHtml(m.firstname)} ${escapeHtml(m.lastname || '')}</td>
+              <td><code style="font-size:0.78rem; background:#f0ede6; padding:0.1rem 0.4rem; border-radius:4px;">${escapeHtml(m.username)}</code></td>
+              <td><a href="mailto:${escapeHtml(m.email)}" style="color:#0a192f">${escapeHtml(m.email)}</a></td>
+              <td>${escapeHtml(m.phone || '—')}</td>
+              <td>${escapeHtml(m.city || '—')}</td>
+              <td>${escapeHtml(m.state || '—')}</td>
+              <td><span class="tier-${escapeHtml(m.membership_tier || 'silver')}">${m.membership_tier === 'platinum' ? '💎' : m.membership_tier === 'gold' ? '🥇' : '🥈'} ${escapeHtml(m.membership_tier || 'silver')}</span></td>
+              <td style="font-size:0.8rem">${escapeHtml(m.trip_purpose || '—')}</td>
+              <td style="font-size:0.78rem; white-space:nowrap">${fmtDateTime(m.created_at)}</td>
+              <td>
+                <button class="btn-sm btn-delete" onclick="deleteMember(${Number(m.id)})">🗑️ Delete</button>
+              </td>
+            </tr>
+          `).join('');
+          table.style.display = 'table';
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) {
+          empty.innerHTML = `<div class="icon">⚠️</div><h3>Cannot connect to database</h3><p>${escapeHtml(err.message)}</p>`;
+          empty.style.display = 'block';
+        }
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+    async function deleteMember(id) {
+      if (!confirm(`Are you sure you want to delete member #${id}? This cannot be undone.`)) return;
+      try {
+        const result = await window.AzureAPI.admin.deleteMember(id);
+        if (result && result.success) {
+          toast(`Member #${id} deleted.`);
+          loadMembers();
+        } else {
+          toast((result && result.message) ? result.message : 'Error deleting member', false);
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) toast(`Failed to delete member: ${err.message}`, false);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       CONTACT MESSAGES (Real Data from Backend)
+       ══════════════════════════════════════════════════════════════ */
+    async function loadContacts() {
+      const loading = document.getElementById('con-loading');
+      const table = document.getElementById('con-table');
+      const empty = document.getElementById('con-empty');
+      if (!loading || !table || !empty) return;
+
+      loading.style.display = 'flex';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      try {
+        const response = await window.AzureAPI.admin.getContacts();
+        const rows = (response && response.data) ? response.data : [];
+
+        document.getElementById('badge-con').textContent = rows.length;
+
+        if (rows.length === 0) {
+          empty.innerHTML = '<div class="icon">📭</div><h3>No inquiries found</h3><p>There are no contact inquiries in the database.</p>';
+          empty.style.display = 'block';
+        } else {
+          const tbody = document.getElementById('con-tbody');
+          tbody.innerHTML = rows.map(m => `
+            <tr>
+              <td><strong>#${escapeHtml(m.id)}</strong></td>
+              <td>${escapeHtml(m.name)}</td>
+              <td><a href="mailto:${escapeHtml(m.email)}" style="color:#0a192f">${escapeHtml(m.email)}</a></td>
+              <td>${escapeHtml(m.phone || '—')}</td>
+              <td>${escapeHtml(m.subject || '—')}</td>
+              <td>${escapeHtml(m.department || 'General')}</td>
+              <td style="max-width:280px; font-size:0.82rem">${escapeHtml(m.message)}</td>
+              <td style="font-size:0.78rem; white-space:nowrap">${fmtDateTime(m.created_at)}</td>
+            </tr>
+          `).join('');
+          table.style.display = 'table';
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) {
+          empty.innerHTML = `<div class="icon">⚠️</div><h3>Cannot load contact messages</h3><p>${escapeHtml(err.message)}</p>`;
+          empty.style.display = 'block';
+        }
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       FOOD ORDERS (Real Data from Backend)
+       ══════════════════════════════════════════════════════════════ */
+    async function loadFoodOrders() {
+      const loading = document.getElementById('food-loading');
+      const table = document.getElementById('food-table');
+      const empty = document.getElementById('food-empty');
+      if (!loading || !table || !empty) return;
+
+      loading.style.display = 'flex';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      try {
+        const response = await window.AzureAPI.admin.getFoodOrders();
+        const rows = (response && response.data) ? response.data : [];
+
+        document.getElementById('badge-food').textContent = rows.length;
+
+        const preparing = rows.filter(o => o.status === 'preparing').length;
+        const delivered = rows.filter(o => o.status === 'delivered').length;
+        const foodRev = rows.reduce((s, o) => s + (parseFloat(o.total_amount) || 0), 0);
+
+        document.getElementById('food-stats').innerHTML = `
+          <div class="stat-card"><div class="stat-icon gold">🍽️</div><div><div class="stat-value">${rows.length}</div><div class="stat-label">Total Orders</div></div></div>
+          <div class="stat-card"><div class="stat-icon yellow">🍳</div><div><div class="stat-value">${preparing}</div><div class="stat-label">Preparing</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-value">${delivered}</div><div class="stat-label">Delivered</div></div></div>
+          <div class="stat-card"><div class="stat-icon navy">💰</div><div><div class="stat-value">₹${foodRev.toLocaleString('en-IN')}</div><div class="stat-label">Dining Revenue</div></div></div>
+        `;
+
+        if (rows.length === 0) {
+          empty.innerHTML = '<div class="icon">📭</div><h3>No food orders found</h3><p>There are no kitchen orders in the database.</p>';
+          empty.style.display = 'block';
+        } else {
+          const tbody = document.getElementById('food-tbody');
+          tbody.innerHTML = rows.map(o => `
+            <tr>
+              <td><code>${escapeHtml(o.order_ref || '#' + o.id)}</code></td>
+              <td><strong>${escapeHtml(o.room_number)}</strong></td>
+              <td>${escapeHtml(o.guest_name)}</td>
+              <td>${escapeHtml(o.guest_phone || '—')}</td>
+              <td>${escapeHtml(o.delivery_date || '')} ${escapeHtml(o.delivery_time || '')}</td>
+              <td style="max-width:240px; font-size:0.8rem">${escapeHtml(o.items)}</td>
+              <td><strong>₹${o.total_amount ? Number(o.total_amount).toLocaleString('en-IN') : '0'}</strong></td>
+              <td><span class="badge-status ${o.status === 'delivered' ? 'status-confirmed' : 'status-pending'}">${escapeHtml(o.status || 'preparing')}</span></td>
+              <td style="font-size:0.78rem; white-space:nowrap">${fmtDateTime(o.created_at)}</td>
+              <td>
+                <div class="action-btns">
+                  ${o.status !== 'delivered' ? `<button class="btn-sm btn-confirm" onclick="updateFoodStatus(${Number(o.id)}, 'delivered')">✅ Delivered</button>` : ''}
+                  <button class="btn-sm btn-delete" onclick="deleteFoodOrder(${Number(o.id)})">🗑️ Delete</button>
+                </div>
+              </td>
+            </tr>
+          `).join('');
+          table.style.display = 'table';
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) {
+          empty.innerHTML = `<div class="icon">⚠️</div><h3>Cannot load food orders</h3><p>${escapeHtml(err.message)}</p>`;
+          empty.style.display = 'block';
+        }
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+    async function updateFoodStatus(id, status) {
+      if (!confirm(`Mark food order #${id} as '${status}'?`)) return;
+      try {
+        const result = await window.AzureAPI.admin.updateFoodOrder(id, status);
+        if (result && result.success) {
+          toast(`Order #${id} marked as ${status}`);
+          loadFoodOrders();
+        } else {
+          toast((result && result.message) ? result.message : 'Error updating order status', false);
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) toast(`Failed to update order: ${err.message}`, false);
+      }
+    }
+
+    async function deleteFoodOrder(id) {
+      if (!confirm(`Are you sure you want to permanently delete food order #${id}? This cannot be undone.`)) return;
+      try {
+        const result = await window.AzureAPI.admin.deleteFoodOrder(id);
+        if (result && result.success) {
+          toast(`Food order #${id} deleted.`);
+          loadFoodOrders();
+        } else {
+          toast((result && result.message) ? result.message : 'Error deleting food order', false);
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) toast(`Failed to delete order: ${err.message}`, false);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       ADMIN AUTHENTICATION & SECURITY (No Hardcoded Credentials)
+       ══════════════════════════════════════════════════════════════ */
+    function checkAdminAuth() {
+      const token = sessionStorage.getItem('azure_admin_token');
+      const userStr = sessionStorage.getItem('azure_admin_user');
+      const modal = document.getElementById('login-modal-overlay');
+      const userBadge = document.getElementById('admin-user-badge');
+      const logoutBtn = document.getElementById('btn-logout');
+
+      if (token && userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (modal) modal.style.display = 'none';
+          if (userBadge) userBadge.style.display = 'flex';
+          if (logoutBtn) logoutBtn.style.display = 'inline-block';
+          const disp = document.getElementById('admin-username-display');
+          if (disp) disp.textContent = `${user.username} (${user.role || 'Admin'})`;
+          return true;
+        } catch {
+          sessionStorage.clear();
+        }
+      }
+
+      if (modal) modal.style.display = 'flex';
+      if (userBadge) userBadge.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'none';
+      return false;
+    }
+
+    function toggleLoginPassword() {
+      const input = document.getElementById('login-password');
+      if (input) {
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+    }
+
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('login-error-alert');
+      const btn = document.getElementById('btn-login-submit');
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      if (!username || !password) {
+        errBox.textContent = '⚠️ Please enter both username and password.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      errBox.style.display = 'none';
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Authenticating with server...';
+
+      try {
+        const result = await window.AzureAPI.admin.login(username, password);
+
+        if (result && result.success && result.token) {
+          // Securely store token in sessionStorage only (never in localStorage)
+          sessionStorage.setItem('azure_admin_token', result.token);
+          sessionStorage.setItem('azure_admin_user', JSON.stringify(result.user || { username, role: 'Administrator' }));
+          checkAdminAuth();
+          toast(result.message || 'Authenticated successfully.');
+          loadAll();
+        } else {
+          errBox.textContent = '⚠️ ' + ((result && result.message) ? result.message : 'Invalid administrator credentials.');
+          errBox.style.display = 'block';
+        }
+      } catch (err) {
+        errBox.textContent = `⚠️ Connection Failed: ${err.message}. Please ensure the Node.js server (server.js) is running on port 3001.`;
+        errBox.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🔐 Sign In to Dashboard';
+      }
+    }
+
+    function logoutAdmin() {
+      if (!confirm('Log out from Grand Azure Admin Portal?')) return;
+      sessionStorage.removeItem('azure_admin_token');
+      sessionStorage.removeItem('azure_admin_user');
+      toast('Logged out successfully.');
+      checkAdminAuth();
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       ADMIN USERS MANAGEMENT
+       ══════════════════════════════════════════════════════════════ */
+    async function loadAdmins() {
+      const loading = document.getElementById('adm-loading');
+      const table = document.getElementById('adm-table');
+      if (!loading || !table) return;
+
+      loading.style.display = 'flex';
+      table.style.display = 'none';
+
+      try {
+        const response = await window.AzureAPI.admin.getUsers();
+        const rows = (response && response.data) ? response.data : [];
+
+        document.getElementById('badge-adm').textContent = rows.length;
+        document.getElementById('stat-total-admins').textContent = rows.length;
+        const superAdmins = rows.filter(u => u.role && u.role.includes('Super')).length;
+        document.getElementById('stat-super-admins').textContent = superAdmins || (rows.length ? 1 : 0);
+
+        const selectEl = document.getElementById('change-adm-username');
+        if (selectEl) {
+          selectEl.innerHTML = rows.map(u => `<option value="${escapeHtml(u.username)}">${escapeHtml(u.username)} (${escapeHtml(u.role)})</option>`).join('');
+        }
+
+        const tbody = document.getElementById('adm-tbody');
+        tbody.innerHTML = rows.map(u => `
+          <tr>
+            <td><strong>#${escapeHtml(u.id)}</strong></td>
+            <td><code style="font-size:0.85rem; font-weight:700; background:#f0ede6; padding:0.15rem 0.5rem; border-radius:4px;">${escapeHtml(u.username)}</code></td>
+            <td><span class="badge-status status-confirmed">🛡️ ${escapeHtml(u.role)}</span></td>
+            <td style="font-size:0.8rem; white-space:nowrap">${fmtDateTime(u.created_at)}</td>
+            <td>
+              ${rows.length > 1 ? `<button class="btn-sm btn-delete" onclick="deleteAdminUser(${Number(u.id)}, '${escapeHtml(u.username)}')">🗑️ Delete</button>` : '<span style="font-size:0.75rem; color:#64748b;">(Primary Admin)</span>'}
+            </td>
+          </tr>
+        `).join('');
+        table.style.display = 'table';
+      } catch (err) {
+        if (!handleAuthError(err)) console.warn('Could not load admin users:', err);
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+    async function handleCreateAdmin(e) {
+      e.preventDefault();
+      const username = document.getElementById('new-adm-username').value.trim();
+      const role = document.getElementById('new-adm-role').value;
+      const password = document.getElementById('new-adm-password').value;
+      const confirmP = document.getElementById('new-adm-confirm-password').value;
+
+      if (password !== confirmP) {
+        toast('Passwords do not match.', false);
+        return;
+      }
+      if (password.length < 6) {
+        toast('Password must be at least 6 characters.', false);
+        return;
+      }
+
+      try {
+        const result = await window.AzureAPI.admin.createUser({ username, password, role });
+        if (result && result.success) {
+          toast(result.message || 'Admin user created successfully.');
+          document.getElementById('create-admin-form').reset();
+          loadAdmins();
+        } else {
+          toast((result && result.message) ? result.message : 'Error creating admin', false);
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) toast(`Failed to create admin: ${err.message}`, false);
+      }
+    }
+
+    async function handleChangePassword(e) {
+      e.preventDefault();
+      const username = document.getElementById('change-adm-username').value;
+      const current_password = document.getElementById('change-adm-current').value;
+      const new_password = document.getElementById('change-adm-new').value;
+      const confirmP = document.getElementById('change-adm-confirm').value;
+
+      if (new_password !== confirmP) {
+        toast('New passwords do not match.', false);
+        return;
+      }
+      if (new_password.length < 6) {
+        toast('New password must be at least 6 characters.', false);
+        return;
+      }
+
+      try {
+        const result = await window.AzureAPI.admin.changePassword({ username, current_password, new_password });
+        if (result && result.success) {
+          toast(result.message || 'Password changed successfully.');
+          document.getElementById('change-password-form').reset();
+        } else {
+          toast((result && result.message) ? result.message : 'Error changing password', false);
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) toast(`Failed to change password: ${err.message}`, false);
+      }
+    }
+
+    async function deleteAdminUser(id, username) {
+      if (!confirm(`Are you sure you want to permanently delete admin user '${username}'?`)) return;
+      try {
+        const result = await window.AzureAPI.admin.deleteUser(id);
+        if (result && result.success) {
+          toast(result.message || 'Admin user deleted.');
+          loadAdmins();
+        } else {
+          toast((result && result.message) ? result.message : 'Error deleting admin', false);
+        }
+      } catch (err) {
+        if (!handleAuthError(err)) toast(`Failed to delete admin: ${err.message}`, false);
+      }
+    }
+
+    /* ── Load all data ── */
+    async function loadAll() {
+      await checkHealth();
+      if (!checkAdminAuth()) return;
+      await Promise.all([loadReservations(), loadMembers(), loadContacts(), loadFoodOrders(), loadAdmins()]);
+    }
+
+    // Initial auth check & load
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAdminAuth();
+      if (sessionStorage.getItem('azure_admin_token')) {
+        loadAll();
+      }
+    });
+
+    // Auto-refresh every 30 seconds if authenticated
+    setInterval(() => {
+      if (sessionStorage.getItem('azure_admin_token')) {
+        loadAll();
+      }
+    }, 30000);
+  </script>
+</body>
+
+</html>

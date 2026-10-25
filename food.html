@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Order food at Grand Azure Hotel & Resort – In-room dining, restaurant reservations, and special meal requests delivered to your room 24/7.">
+  <title>Food Order & Dining – Grand Azure Hotel & Resort</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Internal CSS -->
+  <style>
+    /* ── Food Order Page Specific ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Menu Category Tabs */
+    .menu-tabs {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+
+    .menu-tab {
+      padding: 0.6rem 1.4rem;
+      border-radius: 50px;
+      border: 2px solid #e2d9c9;
+      background: #fff;
+      color: #475569;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .menu-tab:hover,
+    .menu-tab.active {
+      background: linear-gradient(135deg, #d4af37, #f5d060);
+      border-color: #d4af37;
+      color: #0a192f;
+      box-shadow: 0 4px 15px rgba(212,175,55,0.35);
+    }
+
+    /* Menu Items Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .menu-item-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e8e4dc;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      transition: all 0.35s ease;
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    .menu-item-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+    }
+
+    .menu-item-img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+    }
+
+    .menu-item-body {
+      padding: 1.1rem;
+    }
+
+    .menu-item-tags {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .diet-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.18rem 0.6rem;
+      border-radius: 50px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .tag-veg   { background: #dcfce7; color: #15803d; }
+    .tag-nonveg{ background: #fee2e2; color: #b91c1c; }
+    .tag-vegan { background: #f0fdf4; color: #166534; }
+    .tag-chef  { background: #fef3c7; color: #92400e; }
+    .tag-spicy { background: #fff7ed; color: #c2410c; }
+
+    .menu-item-body h3 {
+      font-size: 1rem;
+      color: #0a192f;
+      margin-bottom: 0.3rem;
+    }
+
+    .menu-item-body p {
+      font-size: 0.82rem;
+      color: #64748b;
+      margin-bottom: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .menu-item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.75rem;
+      border-top: 1px solid #f0ebe0;
+    }
+
+    .menu-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0a192f;
+    }
+
+    /* Quantity Stepper */
+    .qty-stepper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #f8f7f2;
+      border-radius: 50px;
+      padding: 0.2rem 0.5rem;
+      border: 1.5px solid #e8e4dc;
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: #0a192f;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.25s ease;
+      line-height: 1;
+    }
+
+    .qty-btn:hover { background: #d4af37; color: #0a192f; }
+
+    .qty-input {
+      width: 32px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #0a192f;
+      outline: none;
+      padding: 0;
+    }
+
+    /* Order Summary Sidebar */
+    .order-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .order-summary-card {
+      background: #0a192f;
+      border-radius: 20px;
+      padding: 2rem;
+      color: #fff;
+      position: sticky;
+      top: 100px;
+    }
+
+    .order-summary-card h3 {
+      color: #d4af37;
+      font-size: 1.1rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.88rem;
+    }
+
+    .cart-item .name { color: rgba(255,255,255,0.8); flex: 1; }
+    .cart-item .qty  { color: #d4af37; font-weight: 700; margin: 0 0.75rem; }
+    .cart-item .amt  { color: #fff; font-weight: 600; }
+
+    .cart-empty {
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.88rem;
+      padding: 1.5rem 0;
+    }
+
+    .order-subtotal {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .subtotal-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 0.35rem 0;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .subtotal-line .val { color: #fff; font-weight: 600; }
+
+    .order-total-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 2px solid #d4af37;
+    }
+
+    .order-total-line .label { color: #d4af37; font-weight: 700; font-size: 0.95rem; }
+    .order-total-line .value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: #d4af37;
+      font-weight: 700;
+    }
+
+    /* Delivery info banner */
+    .delivery-banner {
+      background: linear-gradient(135deg, #0a192f, #1a3a5c);
+      border-radius: 16px;
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .delivery-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.88rem;
+    }
+
+    .delivery-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(212,175,55,0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .delivery-item strong { display: block; color: #d4af37; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Order form */
+    .order-form-section {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #e8e4dc;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      margin-bottom: 1.5rem;
+    }
+
+    .order-form-section h3 {
+      font-size: 1.1rem;
+      color: #0a192f;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Time slots */
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+
+    .time-slot {
+      position: relative;
+    }
+
+    .time-slot input { display: none; }
+
+    .time-slot label {
+      display: block;
+      text-align: center;
+      padding: 0.55rem 0.5rem;
+      border: 1.5px solid #e8e4dc;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      background: #fafaf8;
+      transition: all 0.25s ease;
+    }
+
+    .time-slot input:checked + label {
+      border-color: #d4af37;
+      background: linear-gradient(135deg, #faf5e4, #fffce8);
+      color: #0a192f;
+    }
+
+    .time-slot label:hover {
+      border-color: #d4af37;
+      background: #faf5e4;
+    }
+
+    /* Special request rating stars */
+    .spice-level {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .spice-btn {
+      padding: 0.4rem 0.9rem;
+      border: 2px solid #e8e4dc;
+      border-radius: 50px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+      transition: all 0.25s ease;
+    }
+
+    .spice-btn:hover { border-color: #d4af37; }
+
+    .spice-btn.selected {
+      background: linear-gradient(135deg, #d4af37, #f5d060);
+      border-color: #d4af37;
+      color: #0a192f;
+    }
+
+    @media (max-width: 1024px) {
+      .order-layout { grid-template-columns: 1fr; }
+      .order-summary-card { position: static; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .time-slots { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .menu-grid { grid-template-columns: 1fr; }
+      .time-slots { grid-template-columns: repeat(2, 1fr); }
+      .delivery-banner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .time-slots { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="main-header">
+    <nav class="navbar">
+      <div class="nav-logo">
+        <div class="logo-icon">🏨</div>
+        <div class="logo-text">
+          Grand Azure
+          <span>Hotel &amp; Resort</span>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="rooms.html">Rooms &amp; Suites</a></li>
+        <li><a href="reservation.html">Reservation</a></li>
+        <li><a href="food.html" class="active">Food Order</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="reservation.html" class="btn btn-gold">Book Now</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- PAGE BANNER -->
+    <section class="page-banner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span class="current">Food Order &amp; Dining</span>
+      </div>
+      <h1>In-Room Dining &amp; Food Order</h1>
+      <p>Savor world-class cuisine delivered to your room. Order from our signature menus — available 24 hours a day, 7 days a week.</p>
+    </section>
+
+    <!-- DELIVERY INFO STRIP -->
+    <section class="section-pad-sm bg-white">
+      <div class="container">
+        <div class="delivery-banner">
+          <div class="delivery-item">
+            <div class="delivery-icon">🚀</div>
+            <div>
+              <strong>Delivery Time</strong>
+              30–45 minutes to your room
+            </div>
+          </div>
+          <div class="delivery-item">
+            <div class="delivery-icon">🕐</div>
+            <div>
+              <strong>Available</strong>
+              24 Hours · 7 Days a Week
+            </div>
+          </div>
+          <div class="delivery-item">
+            <div class="delivery-icon">🍽️</div>
+            <div>
+              <strong>Master Chefs</strong>
+              Michelin-trained culinary masters
+            </div>
+          </div>
+          <div class="delivery-item">
+            <div class="delivery-icon">🌿</div>
+            <div>
+              <strong>Fresh Ingredients</strong>
+              Locally sourced, organic produce
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU + ORDER FORM -->
+    <section class="section-pad bg-light">
+      <div class="container">
+        <div class="order-layout">
+
+          <!-- ═══ LEFT: Menu & Order Form ═══ -->
+          <div>
+
+            <!-- MENU CATEGORY TABS -->
+            <div class="text-center" style="margin-bottom: 1.5rem;">
+              <span class="section-label">Our Menu</span>
+              <h2 class="section-title">Choose Your Dishes</h2>
+              <div class="divider center"></div>
+            </div>
+
+            <!-- LIVE ORDER TRACKING BAR -->
+            <div class="order-tracker-bar" style="background:#0a192f; color:#fff; padding:1.25rem 1.5rem; border-radius:14px; margin-bottom:2rem; box-shadow:0 8px 25px rgba(0,0,0,0.15); border:1px solid rgba(212,175,55,0.3);">
+              <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem;">
+                <div>
+                  <h4 style="font-family:'Playfair Display',serif; color:#d4af37; margin-bottom:0.25rem; font-size:1.1rem; display:flex; align-items:center; gap:0.5rem;">
+                    <span>🍽️</span> Track In-Room Dining Order
+                  </h4>
+                  <p style="font-size:0.82rem; color:rgba(255,255,255,0.7); margin:0;">Have an active order? Enter your order reference to check kitchen &amp; delivery status.</p>
+                </div>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; width:100%; max-width:380px;">
+                  <input type="text" id="track-order-input" placeholder="e.g. DINE-2026-101" style="flex:1; min-width:160px; padding:0.6rem 0.9rem; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.08); color:#fff; font-family:'Outfit',sans-serif; outline:none; font-size:0.88rem;">
+                  <button type="button" onclick="trackDiningOrder()" style="background:#d4af37; color:#0a192f; border:none; padding:0.6rem 1.1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.85rem; font-family:'Outfit',sans-serif; transition:all 0.2s;">Track Order</button>
+                </div>
+              </div>
+              <div id="track-order-result" style="display:none; margin-top:1rem; padding-top:1rem; border-top:1px dashed rgba(255,255,255,0.15);"></div>
+            </div>
+
+            <div class="menu-tabs">
+              <button class="menu-tab active" data-cat="all">All Items</button>
+              <button class="menu-tab" data-cat="breakfast">🌅 Breakfast</button>
+              <button class="menu-tab" data-cat="starters">🥗 Starters</button>
+              <button class="menu-tab" data-cat="mains">🍛 Main Course</button>
+              <button class="menu-tab" data-cat="seafood">🦞 Seafood</button>
+              <button class="menu-tab" data-cat="desserts">🍮 Desserts</button>
+              <button class="menu-tab" data-cat="beverages">☕ Beverages</button>
+            </div>
+
+            <!-- MENU ITEMS GRID -->
+            <div class="menu-grid" id="menu-grid">
+
+              <!-- Item 1 -->
+              <div class="menu-item-card" data-cat="breakfast">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=400&q=80" alt="Continental Breakfast">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-veg">Veg</span>
+                  </div>
+                  <h3>Azure Continental Breakfast</h3>
+                  <p>Freshly baked croissants, assorted jams, seasonal fruit platter, orange juice &amp; choice of coffee or tea.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹850</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="Azure Continental Breakfast" data-price="850" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="menu-item-card" data-cat="breakfast">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80" alt="South Indian Breakfast">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-veg">Veg</span>
+                    <span class="diet-tag tag-chef">Chef's Special</span>
+                  </div>
+                  <h3>South Indian Breakfast Thali</h3>
+                  <p>Idli, vada, dosa with sambar and 4 varieties of fresh chutneys, filter coffee.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹650</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="South Indian Breakfast Thali" data-price="650" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="menu-item-card" data-cat="starters">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1576107232684-1279f718c8f7?w=400&q=80" alt="Prawns Cocktail">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-nonveg">Non-Veg</span>
+                  </div>
+                  <h3>Malabar Prawn Cocktail</h3>
+                  <p>Chilled tiger prawns on a bed of spiced avocado, micro herbs, Marie Rose sauce.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹1,200</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="Malabar Prawn Cocktail" data-price="1200" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 4 -->
+              <div class="menu-item-card" data-cat="starters">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80" alt="Paneer Tikka">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-veg">Veg</span>
+                    <span class="diet-tag tag-spicy">Spicy</span>
+                  </div>
+                  <h3>Tandoori Paneer Tikka</h3>
+                  <p>Charcoal-grilled cottage cheese marinated in saffron yoghurt with mint chutney &amp; onion salad.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹780</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="Tandoori Paneer Tikka" data-price="780" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 5 -->
+              <div class="menu-item-card" data-cat="mains">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=400&q=80" alt="Kerala Fish Curry">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-nonveg">Non-Veg</span>
+                    <span class="diet-tag tag-chef">Chef's Special</span>
+                  </div>
+                  <h3>Kerala Karimeen Pollichathu</h3>
+                  <p>Pearl spot fish marinated in traditional spices, wrapped &amp; roasted in banana leaf, served with red rice.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹1,650</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="Kerala Karimeen Pollichathu" data-price="1650" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 6 -->
+              <div class="menu-item-card" data-cat="mains">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80" alt="Dal Makhani">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-veg">Veg</span>
+                  </div>
+                  <h3>Signature Dal Makhani</h3>
+                  <p>Slow-cooked black lentils simmered overnight with cream &amp; spices, served with butter naan &amp; jeera rice.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹920</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="Signature Dal Makhani" data-price="920" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 7 -->
+              <div class="menu-item-card" data-cat="seafood">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1559742811-822873691df8?w=400&q=80" alt="Lobster">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-nonveg">Non-Veg</span>
+                    <span class="diet-tag tag-chef">Chef's Special</span>
+                  </div>
+                  <h3>Grilled Arabian Sea Lobster</h3>
+                  <p>Fresh whole lobster grilled with garlic butter, lemon herbs, served with truffle fries &amp; seasonal salad.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹3,800</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="Grilled Arabian Sea Lobster" data-price="3800" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 8 -->
+              <div class="menu-item-card" data-cat="desserts">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80" alt="Dessert">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-veg">Veg</span>
+                  </div>
+                  <h3>Mango Saffron Panna Cotta</h3>
+                  <p>Silky Italian set cream infused with saffron, topped with Alphonso mango coulis &amp; gold leaf.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹680</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="Mango Saffron Panna Cotta" data-price="680" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 9 -->
+              <div class="menu-item-card" data-cat="beverages">
+                <img class="menu-item-img" src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80" alt="Cocktail">
+                <div class="menu-item-body">
+                  <div class="menu-item-tags">
+                    <span class="diet-tag tag-vegan">Vegan</span>
+                    <span class="diet-tag tag-chef">Signature</span>
+                  </div>
+                  <h3>Azure Sunset Mocktail</h3>
+                  <p>Passion fruit, blue curacao syrup, fresh lime, sparkling water &amp; edible flower garnish.</p>
+                  <div class="menu-item-footer">
+                    <span class="menu-price">₹420</span>
+                    <div class="qty-stepper">
+                      <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                      <input type="number" class="qty-input" value="0" min="0" max="10" data-name="Azure Sunset Mocktail" data-price="420" readonly>
+                      <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- end menu-grid -->
+
+            <!-- ══ ORDER DETAILS FORM ══ -->
+            <form id="food-order-form" novalidate>
+
+              <!-- Delivery Details -->
+              <div class="order-form-section">
+                <h3>📋 Delivery Details</h3>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="guest-name">Guest Name <span class="req">*</span></label>
+                    <input type="text" id="guest-name" name="guest_name"
+                           placeholder="Your full name"
+                           required maxlength="80" autocomplete="name">
+                  </div>
+                  <div class="form-group">
+                    <label for="room-number">Room Number <span class="req">*</span></label>
+                    <input type="number" id="room-number" name="room_number"
+                           placeholder="e.g. 204"
+                           required min="100" max="999">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="guest-phone">Contact Number <span class="req">*</span></label>
+                    <input type="tel" id="guest-phone" name="guest_phone"
+                           placeholder="+91 98765 43210"
+                           required pattern="[\+]?[0-9\s\-]{8,15}">
+                  </div>
+                  <div class="form-group">
+                    <label for="guest-email">Email (for receipt)</label>
+                    <input type="email" id="guest-email" name="guest_email"
+                           placeholder="you@example.com"
+                           maxlength="100" autocomplete="email">
+                  </div>
+                </div>
+
+                <!-- Delivery Type -->
+                <div class="form-group" id="delivery-type-group">
+                  <label>Delivery Type <span class="req">*</span></label>
+                  <div class="pill-radio-group">
+                    <div class="pill-radio">
+                      <input type="radio" name="delivery_type" id="dt-room" value="room">
+                      <label for="dt-room">🛏️ In-Room Delivery</label>
+                    </div>
+                    <div class="pill-radio">
+                      <input type="radio" name="delivery_type" id="dt-pool" value="pool">
+                      <label for="dt-pool">🏊 Poolside</label>
+                    </div>
+                    <div class="pill-radio">
+                      <input type="radio" name="delivery_type" id="dt-beach" value="beach">
+                      <label for="dt-beach">🏖️ Beach Cabana</label>
+                    </div>
+                    <div class="pill-radio">
+                      <input type="radio" name="delivery_type" id="dt-restaurant" value="restaurant">
+                      <label for="dt-restaurant">🍽️ Restaurant Table</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Time & Preferences -->
+              <div class="order-form-section">
+                <h3>⏰ Delivery Time &amp; Preferences</h3>
+
+                <!-- Date -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="order-date">Delivery Date <span class="req">*</span></label>
+                    <input type="date" id="order-date" name="order_date" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="order-time-custom">Preferred Time <span class="req">*</span></label>
+                    <input type="time" id="order-time-custom" name="order_time" required value="13:00">
+                  </div>
+                </div>
+
+                <!-- Quick Time Slots -->
+                <div class="form-group">
+                  <label>Quick Time Slots</label>
+                  <div class="time-slots">
+                    <div class="time-slot">
+                      <input type="radio" name="quick_time" id="ts1" value="07:30">
+                      <label for="ts1">07:30 AM</label>
+                    </div>
+                    <div class="time-slot">
+                      <input type="radio" name="quick_time" id="ts2" value="09:00">
+                      <label for="ts2">09:00 AM</label>
+                    </div>
+                    <div class="time-slot">
+                      <input type="radio" name="quick_time" id="ts3" value="12:30">
+                      <label for="ts3">12:30 PM</label>
+                    </div>
+                    <div class="time-slot">
+                      <input type="radio" name="quick_time" id="ts4" value="14:00">
+                      <label for="ts4">02:00 PM</label>
+                    </div>
+                    <div class="time-slot">
+                      <input type="radio" name="quick_time" id="ts5" value="19:00">
+                      <label for="ts5">07:00 PM</label>
+                    </div>
+                    <div class="time-slot">
+                      <input type="radio" name="quick_time" id="ts6" value="20:30">
+                      <label for="ts6">08:30 PM</label>
+                    </div>
+                    <div class="time-slot">
+                      <input type="radio" name="quick_time" id="ts7" value="22:00">
+                      <label for="ts7">10:00 PM</label>
+                    </div>
+                    <div class="time-slot">
+                      <input type="radio" name="quick_time" id="ts8" value="00:00">
+                      <label for="ts8">Midnight</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Number of covers -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="covers">Number of Covers (People) <span class="req">*</span></label>
+                    <input type="number" id="covers" name="covers"
+                           min="1" max="20" value="2" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="cutlery">Cutlery Preference</label>
+                    <select id="cutlery" name="cutlery">
+                      <option value="standard" selected>🍴 Standard (Fork &amp; Knife)</option>
+                      <option value="chopsticks">🥢 Chopsticks</option>
+                      <option value="hands">🙏 No Cutlery (Serve as-is)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dietary & Special Requests -->
+              <div class="order-form-section">
+                <h3>🌿 Dietary &amp; Special Requests</h3>
+
+                <!-- Dietary restrictions checkboxes -->
+                <div class="form-group">
+                  <label>Dietary Restrictions / Preferences</label>
+                  <div class="check-group">
+                    <label class="check-item">
+                      <input type="checkbox" name="dietary" value="vegetarian"> <span>🥗 Vegetarian</span>
+                    </label>
+                    <label class="check-item">
+                      <input type="checkbox" name="dietary" value="vegan"> <span>🌱 Vegan</span>
+                    </label>
+                    <label class="check-item">
+                      <input type="checkbox" name="dietary" value="gluten-free"> <span>🌾 Gluten-Free</span>
+                    </label>
+                    <label class="check-item">
+                      <input type="checkbox" name="dietary" value="halal"> <span>☪️ Halal</span>
+                    </label>
+                    <label class="check-item">
+                      <input type="checkbox" name="dietary" value="jain"> <span>🙏 Jain</span>
+                    </label>
+                    <label class="check-item">
+                      <input type="checkbox" name="dietary" value="nut-free"> <span>🥜 Nut-Free</span>
+                    </label>
+                    <label class="check-item">
+                      <input type="checkbox" name="dietary" value="dairy-free"> <span>🥛 Dairy-Free</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Spice Level (range) -->
+                <div class="form-group">
+                  <label for="spice-range">Spice Level: <output id="spice-out">Medium</output></label>
+                  <input type="range" id="spice-range" name="spice_level"
+                         min="1" max="5" value="3" step="1"
+                         data-output="spice-out" data-unit="">
+                  <div class="range-display">
+                    <span>🟢 Mild</span>
+                    <span>🔴 Very Spicy</span>
+                  </div>
+                </div>
+
+                <!-- Allergies -->
+                <div class="form-group">
+                  <label for="allergies">Known Allergies</label>
+                  <input type="text" id="allergies" name="allergies"
+                         placeholder="e.g. Peanuts, Shellfish, Lactose, Eggs..."
+                         maxlength="200"
+                         list="allergy-list">
+                  <datalist id="allergy-list">
+                    <option value="Peanuts">
+                    <option value="Tree Nuts">
+                    <option value="Shellfish">
+                    <option value="Fish">
+                    <option value="Dairy / Lactose">
+                    <option value="Eggs">
+                    <option value="Wheat / Gluten">
+                    <option value="Soy">
+                  </datalist>
+                </div>
+
+                <!-- Special Instructions -->
+                <div class="form-group">
+                  <label for="special-instructions">Special Instructions</label>
+                  <textarea id="special-instructions" name="special_instructions"
+                            placeholder="e.g. Extra napkins, birthday cake candles, serve cold, no onion, anniversary setup..."
+                            maxlength="500"
+                            rows="3"></textarea>
+                </div>
+
+                <!-- Occasion -->
+                <div class="form-group">
+                  <label for="occasion">Special Occasion (optional)</label>
+                  <select id="occasion" name="occasion">
+                    <option value="" selected>-- No Special Occasion --</option>
+                    <option value="birthday">🎂 Birthday</option>
+                    <option value="anniversary">💑 Anniversary</option>
+                    <option value="honeymoon">💒 Honeymoon</option>
+                    <option value="business">💼 Business Meal</option>
+                    <option value="celebration">🎉 Celebration</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="form-actions">
+                <button type="submit" class="btn btn-gold btn-lg">
+                  🍽️ Place Order
+                </button>
+                <button type="reset" class="btn btn-outline" style="color: #475569; border-color: #d4cfc4;" onclick="resetCart()">
+                  🗑️ Clear Order
+                </button>
+              </div>
+              <p class="form-note" style="margin-top: 1rem;">
+                ⏱️ Orders are confirmed within 5 minutes. Our kitchen team will contact you if any item is unavailable.
+              </p>
+            </form>
+
+          </div><!-- end left col -->
+
+          <!-- ═══ RIGHT: Order Summary ═══ -->
+          <aside>
+            <div class="order-summary-card" id="order-summary">
+              <h3>🛒 Your Order</h3>
+              <div id="cart-items">
+                <div class="cart-empty" id="cart-empty-msg">
+                  No items selected yet.<br>Use the + buttons to add dishes.
+                </div>
+              </div>
+              <div class="order-subtotal" id="order-subtotal" style="display:none;">
+                <div class="subtotal-line">
+                  <span>Subtotal</span>
+                  <span class="val" id="cart-subtotal">₹0</span>
+                </div>
+                <div class="subtotal-line">
+                  <span>Service Charge (10%)</span>
+                  <span class="val" id="cart-service">₹0</span>
+                </div>
+                <div class="subtotal-line">
+                  <span>GST (5%)</span>
+                  <span class="val" id="cart-tax">₹0</span>
+                </div>
+                <div class="order-total-line">
+                  <span class="label">Total</span>
+                  <span class="value" id="cart-total">₹0</span>
+                </div>
+              </div>
+              <div style="margin-top: 1.5rem;">
+                <p style="font-size:0.78rem; color:rgba(255,255,255,0.45); margin-bottom:0.5rem;">✅ Fresh preparation guaranteed</p>
+                <p style="font-size:0.78rem; color:rgba(255,255,255,0.45); margin-bottom:0.5rem;">✅ Delivered hot to your door</p>
+                <p style="font-size:0.78rem; color:rgba(255,255,255,0.45); margin:0;">✅ Charged to your room account</p>
+              </div>
+            </div>
+
+            <!-- Help card -->
+            <div style="background: #fff; border-radius: 16px; padding: 1.5rem; margin-top: 1.5rem; border: 1px solid #e8e4dc; text-align: center;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">📞</div>
+              <h4 style="color: #0a192f; margin-bottom: 0.5rem;">Room Service</h4>
+              <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Prefer to order by phone? Call our dining team directly.</p>
+              <a href="tel:+914972222999" class="btn btn-dark" style="width:100%; justify-content:center;">
+                Dial Extension 222
+              </a>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text" style="font-family: 'Playfair Display', serif; color: #fff; font-size: 1.4rem;">
+          Grand Azure
+          <span style="display: block; font-family: 'Outfit', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; color: #d4af37; text-transform: uppercase; margin-top: 0.2rem;">Hotel &amp; Resort</span>
+        </div>
+        <p>World-class cuisine crafted by Michelin-star chefs, delivered to your doorstep 24/7.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rooms.html">Rooms &amp; Suites</a></li>
+          <li><a href="reservation.html">Reservation</a></li>
+          <li><a href="food.html">Food Order</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Dining</h4>
+        <ul>
+          <li><a href="#">Restaurant Azur</a></li>
+          <li><a href="#">Pearl Bay Seafood</a></li>
+          <li><a href="#">Celestia Rooftop Bar</a></li>
+          <li><a href="#">In-Room Dining</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+914972222888">+91 497 222 2888</a></li>
+          <li><a href="mailto:dining@grandazure.com">dining@grandazure.com</a></li>
+          <li><a href="#">Dial Ext: 222</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Grand Azure Hotel &amp; Resort. All rights reserved.</p>
+      <div class="legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="admin.html">Staff Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    /* ── Menu Category Filter ── */
+    document.querySelectorAll('.menu-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const cat = tab.dataset.cat;
+        document.querySelectorAll('#menu-grid .menu-item-card').forEach(card => {
+          card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
+        });
+      });
+    });
+
+    /* ── Spice Level Label ── */
+    const spiceLabels = { 1:'Mild 🟢', 2:'Low-Medium 🟡', 3:'Medium 🟠', 4:'Hot 🔴', 5:'Very Spicy 🌶️' };
+    const spiceRange  = document.getElementById('spice-range');
+    const spiceOut    = document.getElementById('spice-out');
+    if (spiceRange && spiceOut) {
+      spiceOut.textContent = spiceLabels[spiceRange.value] || 'Medium 🟠';
+      spiceRange.addEventListener('input', () => {
+        spiceOut.textContent = spiceLabels[spiceRange.value] || 'Medium 🟠';
+      });
+    }
+
+    /* ── Quick Time Slot → fill time input ── */
+    document.querySelectorAll('.time-slot input').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const timeInput = document.getElementById('order-time-custom');
+        if (timeInput) timeInput.value = radio.value;
+      });
+    });
+
+    /* ── Set min date for order-date to today ── */
+    const orderDate = document.getElementById('order-date');
+    if (orderDate) {
+      const todayStr = new Date().toISOString().split('T')[0];
+      orderDate.min   = todayStr;
+      orderDate.value = todayStr;
+    }
+
+    /* ── Cart Logic ── */
+    function changeQty(btn, delta) {
+      const stepper = btn.closest('.qty-stepper');
+      if (!stepper) return;
+      const input = stepper.querySelector('.qty-input');
+      if (!input) return;
+      let val = (parseInt(input.value, 10) || 0) + delta;
+      if (val < 0) val = 0;
+      if (val > 10) val = 10;
+      input.value = val;
+      updateCart();
+    }
+
+    function removeItemFromCart(itemName) {
+      document.querySelectorAll('.qty-input').forEach(input => {
+        if (input.dataset.name === itemName) {
+          input.value = 0;
+        }
+      });
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItemsEl = document.getElementById('cart-items');
+      const subtotalEl  = document.getElementById('order-subtotal');
+      const cartSubEl   = document.getElementById('cart-subtotal');
+      const cartSvcEl   = document.getElementById('cart-service');
+      const cartTaxEl   = document.getElementById('cart-tax');
+      const cartTotalEl = document.getElementById('cart-total');
+      const inputs      = document.querySelectorAll('.qty-input');
+
+      let subtotal = 0;
+      let html = '';
+      let hasItems = false;
+
+      inputs.forEach(input => {
+        const qty   = parseInt(input.value, 10) || 0;
+        const name  = input.dataset.name;
+        const price = parseInt(input.dataset.price, 10) || 0;
+        if (qty > 0) {
+          hasItems = true;
+          const lineTotal = qty * price;
+          subtotal += lineTotal;
+          html += `
+            <div class="cart-item">
+              <span class="name">${escapeHtml(name)}</span>
+              <span class="qty">×${qty}</span>
+              <span class="amt">₹${lineTotal.toLocaleString('en-IN')}</span>
+              <button type="button" onclick="removeItemFromCart('${escapeHtml(name)}')" title="Remove item"
+                      style="background:none; border:none; color:rgba(255,255,255,0.4); cursor:pointer; font-size:0.9rem; margin-left:0.5rem; transition:color 0.2s;"
+                      onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">✕</button>
+            </div>`;
+        }
+      });
+
+      if (hasItems) {
+        if (cartItemsEl) cartItemsEl.innerHTML = html;
+        if (subtotalEl)  subtotalEl.style.display = 'block';
+        const service = Math.round(subtotal * 0.10); // 10% Service Charge
+        const tax     = Math.round(subtotal * 0.05); // 5% GST
+        const total   = subtotal + service + tax;
+
+        if (cartSubEl)   cartSubEl.textContent   = '₹' + subtotal.toLocaleString('en-IN');
+        if (cartSvcEl)   cartSvcEl.textContent   = '₹' + service.toLocaleString('en-IN');
+        if (cartTaxEl)   cartTaxEl.textContent   = '₹' + tax.toLocaleString('en-IN');
+        if (cartTotalEl) cartTotalEl.textContent = '₹' + total.toLocaleString('en-IN');
+      } else {
+        if (cartItemsEl) cartItemsEl.innerHTML = '<div class="cart-empty" id="cart-empty-msg">No items selected yet.<br>Use the + buttons to add dishes.</div>';
+        if (subtotalEl)  subtotalEl.style.display = 'none';
+        if (cartTotalEl) cartTotalEl.textContent = '₹0';
+      }
+    }
+
+    function resetCart() {
+      document.querySelectorAll('.qty-input').forEach(i => i.value = 0);
+      updateCart();
+    }
+
+    /* ── Food Order Form Validation & Real Backend Submission ── */
+    const foodForm = document.getElementById('food-order-form');
+    if (foodForm) {
+
+      function foodMarkInvalid(field, msg) {
+        field.style.borderColor = '#dc2626';
+        field.style.boxShadow   = '0 0 0 3px rgba(220,38,38,0.18)';
+        const id = 'ferr-' + field.id;
+        let errEl = document.getElementById(id);
+        if (!errEl) {
+          errEl = document.createElement('span');
+          errEl.id = id;
+          errEl.setAttribute('role', 'alert');
+          errEl.style.cssText = 'display:block; font-size:0.78rem; color:#dc2626; margin-top:0.3rem; font-weight:500;';
+          field.parentNode.appendChild(errEl);
+        }
+        errEl.textContent = '⚠️ ' + msg;
+        errEl.style.display = 'block';
+      }
+
+      function foodClearError(field) {
+        field.style.borderColor = '';
+        field.style.boxShadow   = '';
+        const errEl = document.getElementById('ferr-' + field.id);
+        if (errEl) errEl.style.display = 'none';
+      }
+
+      function foodClearGroupError(groupId) {
+        const grp = document.getElementById(groupId);
+        if (!grp) return;
+        grp.style.outline = '';
+        const errEl = document.getElementById('ferr-' + groupId);
+        if (errEl) errEl.style.display = 'none';
+      }
+
+      /* Auto-clear on input */
+      ['guest-name','room-number','guest-phone','order-date','order-time-custom','covers'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', function() { if (this.value.trim()) foodClearError(this); });
+        el.addEventListener('change', function() { if (this.value.trim()) foodClearError(this); });
+      });
+
+      document.querySelectorAll('input[name="delivery_type"]').forEach(function(r) {
+        r.addEventListener('change', function() { foodClearGroupError('delivery-type-group'); });
+      });
+
+      foodForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // 1. Check cart is not empty
+        const cartTotal = document.getElementById('cart-total');
+        const selectedDishes = [];
+        document.querySelectorAll('.qty-input').forEach(input => {
+          const qty = parseInt(input.value, 10) || 0;
+          if (qty > 0) {
+            selectedDishes.push({
+              name: input.dataset.name,
+              qty: qty,
+              price: parseInt(input.dataset.price, 10) || 0,
+              itemTotal: qty * (parseInt(input.dataset.price, 10) || 0)
+            });
+          }
+        });
+
+        if (selectedDishes.length === 0 || !cartTotal || cartTotal.textContent === '₹0') {
+          if (typeof window.showToast === 'function') {
+            window.showToast('⚠️ Empty Order', 'Please select at least one dish using the + buttons before ordering.', true);
+          }
+          const menuSection = document.getElementById('menu-grid');
+          menuSection && menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+
+        // 2. Validate form fields
+        const fieldChecks = [
+          { id: 'guest-name',        msg: 'Guest name is required.' },
+          { id: 'room-number',       msg: 'Room number is required (100–999).' },
+          { id: 'guest-phone',       msg: 'Contact telephone number is required.' },
+          { id: 'order-date',        msg: 'Delivery date is required.' },
+          { id: 'order-time-custom', msg: 'Delivery time is required.' },
+          { id: 'covers',            msg: 'Number of covers is required.' },
+        ];
+
+        fieldChecks.forEach(c => {
+          const el = document.getElementById(c.id);
+          if (el) foodClearError(el);
+        });
+        foodClearGroupError('delivery-type-group');
+
+        const errorEls = [];
+
+        fieldChecks.forEach(c => {
+          const el = document.getElementById(c.id);
+          if (!el || !el.value.toString().trim()) {
+            if (el) { foodMarkInvalid(el, c.msg); errorEls.push(el); }
+          }
+        });
+
+        // Validate delivery date cannot be in past
+        const orderDateEl = document.getElementById('order-date');
+        if (orderDateEl && orderDateEl.value) {
+          const todayStr = new Date().toISOString().split('T')[0];
+          if (orderDateEl.value < todayStr) {
+            foodMarkInvalid(orderDateEl, 'Delivery date cannot be in the past.');
+            errorEls.push(orderDateEl);
+          }
+        }
+
+        // Validate delivery type radio group
+        const deliveryRadio = document.querySelector('input[name="delivery_type"]:checked');
+        if (!deliveryRadio) {
+          const grp = document.getElementById('delivery-type-group');
+          if (grp) {
+            grp.style.outline = '2px solid #dc2626';
+            grp.style.borderRadius = '10px';
+            let errEl = document.getElementById('ferr-delivery-type-group');
+            if (!errEl) {
+              errEl = document.createElement('span');
+              errEl.id = 'ferr-delivery-type-group';
+              errEl.setAttribute('role', 'alert');
+              errEl.style.cssText = 'display:block; font-size:0.78rem; color:#dc2626; margin-top:0.4rem; font-weight:500;';
+              grp.appendChild(errEl);
+            }
+            errEl.textContent = '⚠️ Please select a delivery location.';
+            errEl.style.display = 'block';
+            errorEls.push(grp);
+          }
+        }
+
+        if (errorEls.length > 0) {
+          let banner = document.getElementById('food-error-banner');
+          if (!banner) {
+            banner = document.createElement('div');
+            banner.id = 'food-error-banner';
+            banner.style.cssText =
+              'background:#fef2f2; border:1.5px solid #dc2626; border-radius:10px; ' +
+              'padding:0.85rem 1.2rem; margin-bottom:1.5rem; display:flex; ' +
+              'align-items:center; gap:0.75rem; font-size:0.88rem; color:#991b1b; font-weight:500;';
+            banner.innerHTML = '<span>⚠️</span><span>Please fill in all highlighted fields before placing the order.</span>';
+            foodForm.prepend(banner);
+          }
+          banner.style.display = 'flex';
+          errorEls[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          errorEls[0].focus && errorEls[0].focus();
+          return;
+        }
+
+        const oldBanner = document.getElementById('food-error-banner');
+        if (oldBanner) oldBanner.style.display = 'none';
+
+        // 3. Prepare payload for real backend submission
+        const fd = new FormData(foodForm);
+        const subtotalVal = selectedDishes.reduce((sum, item) => sum + item.itemTotal, 0);
+        const serviceVal  = Math.round(subtotalVal * 0.10);
+        const taxVal      = Math.round(subtotalVal * 0.05);
+        const totalVal    = subtotalVal + serviceVal + taxVal;
+
+        const orderSummaryString = selectedDishes
+          .map(d => `${d.qty}x ${d.name} (₹${d.itemTotal.toLocaleString('en-IN')})`)
+          .join('; ');
+
+        const payload = {
+          room_number: fd.get('room_number'),
+          guest_name: fd.get('guest_name'),
+          guest_phone: fd.get('guest_phone'),
+          guest_email: fd.get('guest_email') || '',
+          delivery_type: deliveryRadio ? deliveryRadio.value : 'room',
+          delivery_date: fd.get('order_date'),
+          delivery_time: fd.get('order_time') || '13:00',
+          covers: parseInt(fd.get('covers'), 10) || 1,
+          spice_level: document.getElementById('spice-range')?.value || '3',
+          special_instructions: fd.get('special_instructions') || '',
+          items: orderSummaryString,
+          subtotal_amount: subtotalVal,
+          service_charge: serviceVal,
+          tax_amount: taxVal,
+          total_amount: totalVal,
+          status: 'preparing'
+        };
+
+        const submitBtn = foodForm.querySelector('button[type="submit"]');
+        setButtonLoading(submitBtn, true, 'Placing Order with Kitchen...');
+
+        try {
+          if (!window.AzureAPI || typeof window.AzureAPI.createFoodOrder !== 'function') {
+            throw new Error('API client is not ready.');
+          }
+
+          const result = await window.AzureAPI.createFoodOrder(payload);
+
+          if (result && result.success) {
+            const orderRef = result.order_ref || `DINE-${result.order_id || Date.now()}`;
+            showFormStatus(
+              foodForm,
+              `<strong>Order Placed Successfully!</strong> Order Reference: <code>${escapeHtml(orderRef)}</code>. Estimated delivery in 30–45 minutes. Charged to Room #${escapeHtml(payload.room_number)}.`,
+              'success'
+            );
+
+            if (typeof window.showToast === 'function') {
+              window.showToast('🍽️ Order Confirmed!', `Order Ref: ${orderRef}. Estimated delivery: 35 mins.`);
+            }
+
+            // Reset form and cart upon actual backend confirmation
+            foodForm.reset();
+            resetCart();
+            if (orderDate) orderDate.value = new Date().toISOString().split('T')[0];
+          } else {
+            showFormStatus(foodForm, (result && result.message) ? result.message : 'Food order could not be processed by server.', 'error');
+          }
+        } catch (err) {
+          // No fake success! Show informative server status
+          showFormStatus(
+            foodForm,
+            `Unable to place order: ${err.message}. Please verify the Node.js backend dining service is active.`,
+            'error'
+          );
+          if (typeof window.showToast === 'function') {
+            window.showToast('⚠️ Order Incomplete', 'Could not reach server. Order selections preserved.', true);
+          }
+        } finally {
+          setButtonLoading(submitBtn, false);
+        }
+      });
+    }
+
+    /* ── Live In-Room Dining Order Tracking ── */
+    async function trackDiningOrder() {
+      const input = document.getElementById('track-order-input');
+      const resEl = document.getElementById('track-order-result');
+      const orderNum = input ? input.value.trim() : '';
+
+      if (!orderNum) {
+        alert('Please enter your order reference (e.g. DINE-2026-101).');
+        return;
+      }
+
+      resEl.style.display = 'block';
+      resEl.innerHTML = '<div style="color:#d4af37; font-size:0.85rem;">⏳ Checking kitchen status with culinary team...</div>';
+
+      try {
+        if (!window.AzureAPI || typeof window.AzureAPI.trackOrder !== 'function') {
+          throw new Error('API client is not initialized.');
+        }
+
+        const data = await window.AzureAPI.trackOrder(orderNum);
+        if (data && data.success && data.order) {
+          const o = data.order;
+          const isDelivered = o.order_status === 'delivered';
+          const isCancelled = o.order_status === 'cancelled';
+          const statusColor = isDelivered ? '#16a34a' : (isCancelled ? '#dc2626' : '#d97706');
+          const statusIcon = isDelivered ? '✅' : (isCancelled ? '❌' : '🍳');
+
+          resEl.innerHTML = `
+            <div style="background:rgba(255,255,255,0.06); padding:1.1rem; border-radius:10px; border-left:4px solid ${statusColor};">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem; flex-wrap:wrap; gap:0.5rem;">
+                <strong style="color:#fff; font-size:0.95rem;">Order #${escapeHtml(o.order_number)} — Room #${escapeHtml(o.room_number)}</strong>
+                <span style="background:${statusColor}; color:#fff; padding:0.25rem 0.75rem; border-radius:20px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">
+                  ${statusIcon} ${escapeHtml(o.order_status)}
+                </span>
+              </div>
+              <p style="font-size:0.84rem; color:rgba(255,255,255,0.85); margin:0.3rem 0;">
+                <strong>Guest:</strong> ${escapeHtml(o.guest_name)} &bull; 
+                <strong>Target Time:</strong> ${escapeHtml(o.delivery_time || '35 mins')} &bull;
+                <strong>Total:</strong> ₹${Number(o.total_amount).toLocaleString('en-IN')}
+              </p>
+              <p style="font-size:0.82rem; color:rgba(255,255,255,0.65); margin:0;">
+                <strong>Dishes:</strong> ${escapeHtml(o.items)}
+              </p>
+            </div>
+          `;
+        } else {
+          resEl.innerHTML = `<div style="color:#ef4444; font-size:0.85rem;">⚠️ Order reference '<strong>${escapeHtml(orderNum)}</strong>' was not found in active kitchen orders. Please check your reference code.</div>`;
+        }
+      } catch (err) {
+        resEl.innerHTML = `<div style="color:#ef4444; font-size:0.85rem;">⚠️ Could not check order: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    /* ── Dynamic Menu Loading from MySQL Database ── */
+    async function loadDynamicMenu() {
+      try {
+        if (!window.AzureAPI || typeof window.AzureAPI.getMenu !== 'function') return;
+        const res = await window.AzureAPI.getMenu();
+        if (!res || !res.success || !Array.isArray(res.data) || res.data.length === 0) return;
+
+        const grid = document.getElementById('menu-grid');
+        if (!grid) return;
+
+        grid.innerHTML = res.data.map(item => {
+          const priceNum = parseFloat(item.price);
+          const tags = (item.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+          const tagHtml = tags.map(t => {
+            const isVeg = t.toLowerCase().includes('veg') && !t.toLowerCase().includes('non');
+            const isChef = t.toLowerCase().includes('chef');
+            const cls = isChef ? 'tag-chef' : (isVeg ? 'tag-veg' : 'tag-nonveg');
+            return `<span class="diet-tag ${cls}">${escapeHtml(t)}</span>`;
+          }).join(' ');
+
+          return `
+            <div class="menu-item-card" data-cat="${escapeHtml(item.category)}">
+              <img class="menu-item-img" src="${escapeHtml(item.image_url || 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&q=80')}" alt="${escapeHtml(item.item_name)}" loading="lazy">
+              <div class="menu-item-body">
+                <div class="menu-item-tags">${tagHtml}</div>
+                <h3>${escapeHtml(item.item_name)}</h3>
+                <p>${escapeHtml(item.description || '')}</p>
+                <div class="menu-item-footer">
+                  <span class="menu-price">₹${priceNum.toLocaleString('en-IN')}</span>
+                  <div class="qty-stepper">
+                    <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease quantity">−</button>
+                    <input type="number" class="qty-input" value="0" min="0" max="10" data-name="${escapeHtml(item.item_name)}" data-price="${priceNum}" readonly>
+                    <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase quantity">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Apply active filter
+        const activeTab = document.querySelector('.menu-tab.active');
+        const cat = activeTab ? activeTab.dataset.cat : 'all';
+        document.querySelectorAll('#menu-grid .menu-item-card').forEach(card => {
+          card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
+        });
+      } catch (err) {
+        console.warn('Could not load dynamic menu from MySQL, keeping default menu display:', err);
+      }
+    }
+
+    // Load menu on page ready
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDynamicMenu();
+    });
+  </script>
+</body>
+</html>

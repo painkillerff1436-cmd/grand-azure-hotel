@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact Grand Azure Hotel & Resort – Reach our concierge team 24/7 for reservations, inquiries, event planning, or any assistance. We are here to serve you.">
+  <title>Contact Us – Grand Azure Hotel & Resort</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Internal CSS -->
+  <style>
+    /* Contact page specific animations */
+    @keyframes pulse-gold {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); }
+      50%       { box-shadow: 0 0 0 12px rgba(212,175,55,0); }
+    }
+
+    .availability-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: #22c55e;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .availability-badge .dot {
+      width: 10px;
+      height: 10px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse-gold 2s infinite;
+    }
+
+    /* Subject cards for inquiry type */
+    .subject-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .subject-card {
+      border: 2px solid #e8e4dc;
+      border-radius: 10px;
+      padding: 0.9rem 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      background: #fafaf8;
+      transition: all 0.25s ease;
+    }
+
+    .subject-card input { display: none; }
+
+    .subject-card:has(input:checked) {
+      border-color: #d4af37;
+      background: linear-gradient(135deg, #faf5e4, #fffce8);
+    }
+
+    .subject-card .s-icon { font-size: 1.5rem; margin-bottom: 0.35rem; }
+    .subject-card .s-name { font-size: 0.78rem; font-weight: 600; color: #0a192f; }
+
+    /* Location card */
+    .location-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .location-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    .location-box h4 {
+      color: #d4af37;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .location-box p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.75);
+      margin: 0;
+    }
+
+    /* Social cards on contact */
+    .social-card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .social-card {
+      background: #fff;
+      border: 1px solid #e8e4dc;
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .social-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      border-color: #d4af37;
+    }
+
+    .social-card .s-platform-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .social-card .s-platform { font-size: 0.82rem; font-weight: 700; color: #0a192f; }
+    .social-card .s-handle { font-size: 0.75rem; color: #d4af37; }
+
+    /* Working hours table */
+    .hours-table {
+      width: 100%;
+      font-size: 0.88rem;
+    }
+
+    .hours-table td {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.75);
+    }
+
+    .hours-table td:first-child { color: rgba(255,255,255,0.5); }
+    .hours-table td:last-child { text-align: right; color: #d4af37; font-weight: 600; }
+
+    @media (max-width: 768px) {
+      .subject-cards { grid-template-columns: repeat(2, 1fr); }
+      .social-card-grid { grid-template-columns: repeat(2, 1fr); }
+      .location-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .subject-cards { grid-template-columns: repeat(2, 1fr); }
+      .social-card-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="main-header">
+    <nav class="navbar">
+      <div class="nav-logo">
+        <div class="logo-icon">🏨</div>
+        <div class="logo-text">
+          Grand Azure
+          <span>Hotel &amp; Resort</span>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="rooms.html">Rooms &amp; Suites</a></li>
+        <li><a href="reservation.html">Reservation</a></li>
+        <li><a href="food.html">Food Order</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li><a href="reservation.html" class="btn btn-gold">Book Now</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- PAGE BANNER -->
+    <section class="page-banner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span class="current">Contact Us</span>
+      </div>
+      <h1>Contact &amp; Support</h1>
+      <p>Our dedicated concierge team is available around the clock to assist with reservations, inquiries, or anything that will enhance your stay.</p>
+    </section>
+
+    <!-- CONTACT MAIN -->
+    <section class="section-pad bg-light">
+      <div class="container">
+        <div class="contact-grid">
+
+          <!-- ═══ LEFT: Contact Information ═══ -->
+          <div>
+            <div class="contact-info-card">
+              <div class="availability-badge">
+                <span class="dot"></span>
+                Concierge Available Now – 24/7
+              </div>
+              <h3>Get In Touch</h3>
+
+              <div class="contact-detail">
+                <div class="contact-icon">📞</div>
+                <div>
+                  <h4>Main Reservation Line</h4>
+                  <p><a href="tel:+914972222888" style="color: #fff;">+91 497 222 2888</a></p>
+                </div>
+              </div>
+
+              <div class="contact-detail">
+                <div class="contact-icon">📞</div>
+                <div>
+                  <h4>International Toll-Free</h4>
+                  <p><a href="tel:+18001234567" style="color: #fff;">+1 800 123 4567</a></p>
+                </div>
+              </div>
+
+              <div class="contact-detail">
+                <div class="contact-icon">✉️</div>
+                <div>
+                  <h4>Reservations</h4>
+                  <p><a href="mailto:reservations@grandazure.com" style="color: #fff;">reservations@grandazure.com</a></p>
+                </div>
+              </div>
+
+              <div class="contact-detail">
+                <div class="contact-icon">✉️</div>
+                <div>
+                  <h4>Events &amp; Weddings</h4>
+                  <p><a href="mailto:events@grandazure.com" style="color: #fff;">events@grandazure.com</a></p>
+                </div>
+              </div>
+
+              <div class="contact-detail">
+                <div class="contact-icon">📍</div>
+                <div>
+                  <h4>Address</h4>
+                  <p>Grand Azure Hotel &amp; Resort<br>Bekal Fort Road, Kasaragod<br>Kerala 671318, India</p>
+                </div>
+              </div>
+
+              <!-- Office Hours -->
+              <h4 style="color: #d4af37; margin-top: 1.5rem; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;">Reception Hours</h4>
+              <table class="hours-table">
+                <tr><td>Concierge Desk</td><td>Open 24 Hours</td></tr>
+                <tr><td>Reservations Office</td><td>07:00 – 22:00</td></tr>
+                <tr><td>Events Planning</td><td>Mon–Sat, 09:00–18:00</td></tr>
+                <tr><td>Spa Bookings</td><td>08:00 – 20:00</td></tr>
+              </table>
+
+              <!-- Location / Map widget -->
+              <div class="map-placeholder">
+                <span>📍</span>
+                <p style="text-align: center;">Grand Azure Hotel &amp; Resort<br>Bekal, Kerala, India</p>
+                <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size: 0.82rem; padding: 0.5rem 1.2rem;">Open in Google Maps →</a>
+              </div>
+
+              <!-- Location Details -->
+              <div class="location-grid">
+                <div class="location-box">
+                  <h4>✈️ Nearest Airport</h4>
+                  <p>Mangalore International (IXE)<br>56 km / ~70 min by car</p>
+                </div>
+                <div class="location-box">
+                  <h4>🚂 Nearest Railway</h4>
+                  <p>Kasaragod Railway Station<br>18 km / ~25 min drive</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ═══ RIGHT: Contact Form ═══ -->
+          <div>
+            <div class="form-card">
+              <h2>Send Us a Message</h2>
+              <p class="form-intro">Fill out the form below and our concierge team will respond within 2 hours.</p>
+
+              <form id="contact-form" novalidate>
+
+                <!-- ── FIELDSET 1: Personal Details ── -->
+                <fieldset>
+                  <legend>👤 Your Details</legend>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="c-name">Full Name <span class="req">*</span></label>
+                      <input type="text" id="c-name" name="contact_name"
+                             placeholder="John Doe"
+                             required
+                             maxlength="100"
+                             autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                      <label for="c-email">Email Address <span class="req">*</span></label>
+                      <input type="email" id="c-email" name="contact_email"
+                             placeholder="john@example.com"
+                             required
+                             maxlength="100"
+                             autocomplete="email">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="c-phone">Phone Number <span class="req">*</span></label>
+                      <input type="tel" id="c-phone" name="contact_phone"
+                             placeholder="+91 98765 43210"
+                             pattern="[\+]?[0-9\s\-]{7,15}"
+                             required
+                             autocomplete="tel">
+                    </div>
+                    <div class="form-group">
+                      <label for="c-country">Country</label>
+                      <input type="text" id="c-country" name="contact_country"
+                             list="contact-countries"
+                             placeholder="India"
+                             autocomplete="country-name">
+                      <datalist id="contact-countries">
+                        <option value="India">
+                        <option value="United States">
+                        <option value="United Kingdom">
+                        <option value="Australia">
+                        <option value="UAE">
+                        <option value="Singapore">
+                        <option value="Germany">
+                        <option value="France">
+                      </datalist>
+                    </div>
+                  </div>
+
+                </fieldset>
+
+                <!-- ── FIELDSET 2: Inquiry Details ── -->
+                <fieldset>
+                  <legend>💬 Your Inquiry</legend>
+
+                  <!-- Subject type via radio cards -->
+                  <div class="form-group">
+                    <label>Inquiry Type <span class="req">*</span></label>
+                    <div class="subject-cards">
+                      <label class="subject-card">
+                        <input type="radio" name="inquiry_type" value="reservation" checked>
+                        <div class="s-icon">🛏️</div>
+                        <div class="s-name">Reservation</div>
+                      </label>
+                      <label class="subject-card">
+                        <input type="radio" name="inquiry_type" value="events">
+                        <div class="s-icon">🎊</div>
+                        <div class="s-name">Events</div>
+                      </label>
+                      <label class="subject-card">
+                        <input type="radio" name="inquiry_type" value="wedding">
+                        <div class="s-icon">💒</div>
+                        <div class="s-name">Weddings</div>
+                      </label>
+                      <label class="subject-card">
+                        <input type="radio" name="inquiry_type" value="spa">
+                        <div class="s-icon">🧖</div>
+                        <div class="s-name">Spa &amp; Wellness</div>
+                      </label>
+                      <label class="subject-card">
+                        <input type="radio" name="inquiry_type" value="corporate">
+                        <div class="s-icon">💼</div>
+                        <div class="s-name">Corporate</div>
+                      </label>
+                      <label class="subject-card">
+                        <input type="radio" name="inquiry_type" value="feedback">
+                        <div class="s-icon">⭐</div>
+                        <div class="s-name">Feedback</div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- SELECT: Preferred contact method -->
+                  <div class="form-group">
+                    <label for="contact_pref">Preferred Contact Method</label>
+                    <select id="contact_pref" name="contact_preference">
+                      <option value="email" selected>📧 Email</option>
+                      <option value="phone">📞 Phone Call</option>
+                      <option value="whatsapp">💬 WhatsApp</option>
+                    </select>
+                  </div>
+
+                  <!-- SELECT: Best time -->
+                  <div class="form-group">
+                    <label for="best_time">Best Time to Contact</label>
+                    <select id="best_time" name="best_time">
+                      <option value="" disabled selected>-- Choose a time slot --</option>
+                      <optgroup label="Morning">
+                        <option value="8-10">08:00 – 10:00 AM</option>
+                        <option value="10-12">10:00 AM – 12:00 PM</option>
+                      </optgroup>
+                      <optgroup label="Afternoon">
+                        <option value="12-14">12:00 – 2:00 PM</option>
+                        <option value="14-17">2:00 – 5:00 PM</option>
+                      </optgroup>
+                      <optgroup label="Evening">
+                        <option value="17-20">5:00 – 8:00 PM</option>
+                        <option value="20-22">8:00 – 10:00 PM</option>
+                      </optgroup>
+                    </select>
+                  </div>
+
+                  <!-- TEXTAREA: Message -->
+                  <div class="form-group">
+                    <label for="c-message">Your Message <span class="req">*</span></label>
+                    <textarea id="c-message" name="contact_message"
+                              placeholder="Please describe your inquiry in detail. Include preferred dates, number of guests, special requirements, or any questions you may have..."
+                              required
+                              minlength="20"
+                              maxlength="2000"
+                              rows="6"></textarea>
+                    <p style="font-size: 0.78rem; color: #94a3b8; margin-top: 0.35rem;">Minimum 20 characters required. Maximum 2,000 characters.</p>
+                  </div>
+
+                  <!-- FILE: Attach files (event floor plan, etc.) -->
+                  <div class="form-group">
+                    <label for="c-attachment">Attach Files (optional)</label>
+                    <input type="file" id="c-attachment" name="attachment"
+                           accept=".pdf,.doc,.docx,.jpg,.png"
+                           multiple>
+                    <p style="font-size: 0.78rem; color: #94a3b8; margin-top: 0.35rem;">e.g. Event floor plan, catering menu preference, inspiration photos (PDF, Word, JPG, PNG)</p>
+                  </div>
+
+                  <!-- NUMBER: Number of Guests (REQUIRED) -->
+                  <div class="form-group">
+                    <label for="c-guests">Number of Guests <span class="req">*</span></label>
+                    <input type="number" id="c-guests" name="estimated_guests"
+                           placeholder="e.g. 2"
+                           min="1"
+                           max="1000"
+                           required>
+                  </div>
+
+                  <!-- DATES: Check-in & Check-out (REQUIRED) -->
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="c-checkin">Check-in Date <span class="req">*</span></label>
+                      <input type="date" id="c-checkin" name="checkin_date" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="c-checkout">Check-out Date <span class="req">*</span></label>
+                      <input type="date" id="c-checkout" name="checkout_date" required>
+                    </div>
+                  </div>
+                  <p id="date-error" style="display:none; font-size:0.82rem; color:#e53e3e; margin-top:-0.5rem; margin-bottom:0.75rem;">⚠️ Check-out date must be after check-in date.</p>
+
+                </fieldset>
+
+                <!-- NEWSLETTER opt-in -->
+                <div class="form-group">
+                  <label class="check-item" style="cursor: pointer;">
+                    <input type="checkbox" name="newsletter_opt" id="news-opt">
+                    <span>Subscribe to our newsletter for exclusive offers and luxury travel insights</span>
+                  </label>
+                </div>
+
+                <!-- FORM ACTIONS -->
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-gold btn-lg">
+                    📨 Send Message
+                  </button>
+                  <button type="reset" class="btn btn-outline" style="color: #475569; border-color: #d4cfc4;">
+                    Clear
+                  </button>
+                </div>
+
+                <p class="form-note" style="margin-top: 1rem;">
+                  ⚡ Average response time: <strong>Under 2 hours</strong> during business hours.
+                </p>
+
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SOCIAL MEDIA LINKS -->
+        <div style="margin-top: 4rem;">
+          <div class="text-center" style="margin-bottom: 2rem;">
+            <span class="section-label">Connect With Us</span>
+            <h2 class="section-title">Follow Grand Azure</h2>
+          </div>
+          <div class="social-card-grid">
+            <a href="#" class="social-card">
+              <div class="s-platform-icon">📘</div>
+              <div class="s-platform">Facebook</div>
+              <div class="s-handle">@GrandAzureResort</div>
+            </a>
+            <a href="#" class="social-card">
+              <div class="s-platform-icon">📸</div>
+              <div class="s-platform">Instagram</div>
+              <div class="s-handle">@grandazure.resort</div>
+            </a>
+            <a href="#" class="social-card">
+              <div class="s-platform-icon">🐦</div>
+              <div class="s-platform">Twitter / X</div>
+              <div class="s-handle">@GrandAzureHotel</div>
+            </a>
+            <a href="#" class="social-card">
+              <div class="s-platform-icon">▶️</div>
+              <div class="s-platform">YouTube</div>
+              <div class="s-handle">Grand Azure TV</div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section-pad bg-white">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 3rem;">
+          <span class="section-label">Help Centre</span>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <div class="divider center"></div>
+        </div>
+
+        <div class="faq-list">
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false" style="width:100%; border:none; text-align:left; background:transparent;">
+              What are the check-in and check-out times?
+              <div class="faq-icon">+</div>
+            </button>
+            <div class="faq-answer">
+              Standard check-in is at 2:00 PM and check-out is at 12:00 PM (noon). Early check-in from 10:00 AM and late check-out until 3:00 PM may be arranged based on availability, sometimes with an additional charge. Gold and Platinum loyalty members receive complimentary late check-out as a standard benefit.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false" style="width:100%; border:none; text-align:left; background:transparent;">
+              What is your cancellation policy?
+              <div class="faq-icon">+</div>
+            </button>
+            <div class="faq-answer">
+              Cancellations made more than 48 hours before the check-in date will receive a full refund. Cancellations within 48 hours will be charged one night's room rate as a cancellation fee. No-shows will be charged the full reservation amount. Special rates and packages may have specific cancellation terms.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false" style="width:100%; border:none; text-align:left; background:transparent;">
+              Is parking available at the resort?
+              <div class="faq-icon">+</div>
+            </button>
+            <div class="faq-answer">
+              Yes, complimentary valet parking is available for all guests. We have an outdoor parking area accommodating 200+ vehicles, plus a dedicated covered parking for VIP and Penthouse guests. Electric vehicle charging points are available at an additional charge of ₹100/hour.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false" style="width:100%; border:none; text-align:left; background:transparent;">
+              Are pets allowed at Grand Azure?
+              <div class="faq-icon">+</div>
+            </button>
+            <div class="faq-answer">
+              We welcome well-behaved pets in select rooms on our ground floor. A pet fee of ₹2,500 per night applies. Please inform us in advance and select the "Pet-Friendly Room" option during reservation. Pets are not permitted in restaurants, the spa, or swimming pool areas. We provide pet beds, bowls, and a complimentary pet welcome kit.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false" style="width:100%; border:none; text-align:left; background:transparent;">
+              Do you offer airport transfers?
+              <div class="faq-icon">+</div>
+            </button>
+            <div class="faq-answer">
+              Yes. We offer luxury car transfers from Mangalore International Airport (56 km) for ₹3,500 one-way, and helicopter transfers for ₹22,000 per person. We also offer speedboat transfers from Bekal Boat Jetty for a scenic arrival experience. Penthouse guests receive complimentary helicopter transfer as part of their package. Please book at least 24 hours in advance through our concierge.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false" style="width:100%; border:none; text-align:left; background:transparent;">
+              Is Wi-Fi available throughout the resort?
+              <div class="faq-icon">+</div>
+            </button>
+            <div class="faq-answer">
+              Yes, complimentary high-speed Wi-Fi (up to 500 Mbps) is available in all rooms, suites, restaurants, lobby, poolside, and across the entire resort grounds. Each room can support up to 10 connected devices simultaneously. Business travellers may request a dedicated connection for video conferencing needs.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false" style="width:100%; border:none; text-align:left; background:transparent;">
+              Can I arrange private airport transfers or chauffeur services?
+              <div class="faq-icon">+</div>
+            </button>
+            <div class="faq-answer">
+              Yes, private airport transfers and luxury chauffeur services can be arranged anytime. You can select this option while making your reservation or contact our 24/7 concierge desk prior to arrival.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+          <p style="color: #64748b; margin-bottom: 1.5rem;">Still have questions? Our concierge team is just a message away.</p>
+          <a href="#contact-form" class="btn btn-dark btn-lg">Ask Us Directly</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text" style="font-family: 'Playfair Display', serif; color: #fff; font-size: 1.4rem;">
+          Grand Azure
+          <span style="display: block; font-family: 'Outfit', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; color: #d4af37; text-transform: uppercase; margin-top: 0.2rem;">Hotel &amp; Resort</span>
+        </div>
+        <p>We are always here to make your experience extraordinary. Contact us anytime, day or night.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook">📘</a>
+          <a href="#" class="social-link" aria-label="Instagram">📸</a>
+          <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-link" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rooms.html">Rooms &amp; Suites</a></li>
+          <li><a href="reservation.html">Reservation</a></li>
+          <li><a href="food.html">Food Order</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Cancellation Policy</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Sitemap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="tel:+914972222888">+91 497 222 2888</a></li>
+          <li><a href="mailto:stay@grandazure.com">stay@grandazure.com</a></li>
+          <li><a href="#">Bekal, Kerala 671318, India</a></li>
+          <li><a href="#">Open 24/7</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Grand Azure Hotel &amp; Resort. All rights reserved.</p>
+      <div class="legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+        <a href="admin.html">Staff Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    (function () {
+      const today = new Date().toISOString().split('T')[0];
+      const checkinEl  = document.getElementById('c-checkin');
+      const checkoutEl = document.getElementById('c-checkout');
+      const dateError  = document.getElementById('date-error');
+      const contactForm = document.getElementById('contact-form');
+
+      // Set minimum selectable date to today
+      if (checkinEl)  checkinEl.setAttribute('min', today);
+      if (checkoutEl) checkoutEl.setAttribute('min', today);
+
+      // When check-in changes, force check-out to be at least the next day
+      if (checkinEl) {
+        checkinEl.addEventListener('change', function () {
+          if (this.value) {
+            const nextDay = new Date(this.value);
+            nextDay.setDate(nextDay.getDate() + 1);
+            const minCheckout = nextDay.toISOString().split('T')[0];
+            checkoutEl.setAttribute('min', minCheckout);
+            if (checkoutEl.value && checkoutEl.value <= this.value) {
+              checkoutEl.value = minCheckout;
+            }
+            if (dateError) dateError.style.display = 'none';
+          }
+        });
+      }
+
+      // Live date range validation
+      if (checkoutEl) {
+        checkoutEl.addEventListener('change', function () {
+          if (checkinEl && checkinEl.value && this.value && this.value <= checkinEl.value) {
+            if (dateError) dateError.style.display = 'block';
+            this.setCustomValidity('Check-out must be after check-in.');
+          } else {
+            if (dateError) dateError.style.display = 'none';
+            this.setCustomValidity('');
+          }
+        });
+      }
+
+      // Auto-clear field errors on user input
+      ['c-name','c-email','c-phone','c-guests','c-message'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', function() {
+            if (this.value.trim()) {
+              this.style.borderColor = '';
+              this.style.boxShadow   = '';
+            }
+          });
+        }
+      });
+
+      // Form submit guard & real API submission
+      if (contactForm) {
+        contactForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+
+          const nameEl    = document.getElementById('c-name');
+          const emailEl   = document.getElementById('c-email');
+          const phoneEl   = document.getElementById('c-phone');
+          const guestsEl  = document.getElementById('c-guests');
+          const messageEl = document.getElementById('c-message');
+
+          const name    = nameEl ? nameEl.value.trim() : '';
+          const email   = emailEl ? emailEl.value.trim() : '';
+          const phone   = phoneEl ? phoneEl.value.trim() : '';
+          const guests  = guestsEl ? guestsEl.value.trim() : '';
+          const checkin = checkinEl ? checkinEl.value : '';
+          const checkout = checkoutEl ? checkoutEl.value : '';
+          const message = messageEl ? messageEl.value.trim() : '';
+
+          // Reset error highlights
+          [nameEl, emailEl, phoneEl, guestsEl, checkinEl, checkoutEl, messageEl].forEach(function (el) {
+            if (el) {
+              el.style.borderColor = '';
+              el.style.boxShadow = '';
+            }
+          });
+
+          let errors = [];
+          if (!name) errors.push(nameEl);
+          if (!email || !email.includes('@')) errors.push(emailEl);
+          if (!phone || phone.length < 7) errors.push(phoneEl);
+          if (!guests) errors.push(guestsEl);
+          if (!checkin) errors.push(checkinEl);
+          if (!checkout || checkout <= checkin) {
+            errors.push(checkoutEl);
+            if (dateError) dateError.style.display = 'block';
+          }
+          if (message.length < 20) errors.push(messageEl);
+
+          if (errors.length > 0) {
+            errors.forEach(function (el) {
+              if (el) {
+                el.style.borderColor = '#dc2626';
+                el.style.boxShadow   = '0 0 0 3px rgba(220,38,38,0.18)';
+              }
+            });
+            errors[0].focus();
+            errors[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+          }
+
+          const submitBtn = contactForm.querySelector('button[type="submit"]');
+          setButtonLoading(submitBtn, true, 'Sending Message...');
+
+          try {
+            if (!window.AzureAPI || typeof window.AzureAPI.sendContact !== 'function') {
+              throw new Error('API client is not ready.');
+            }
+
+            const formData = new FormData(contactForm);
+            const result = await window.AzureAPI.sendContact(formData);
+
+            if (result && result.success) {
+              showFormStatus(
+                contactForm,
+                result.message || 'Thank you! Your message has been received by our concierge team. We will respond within 2 hours.',
+                'success'
+              );
+
+              if (typeof window.showToast === 'function') {
+                window.showToast('📨 Message Sent!', 'Our concierge team will respond within 2 hours.');
+              }
+
+              contactForm.reset();
+              if (checkinEl) checkinEl.value = '';
+              if (checkoutEl) checkoutEl.value = '';
+            } else {
+              showFormStatus(contactForm, (result && result.message) ? result.message : 'Message could not be processed by server.', 'error');
+            }
+          } catch (err) {
+            showFormStatus(
+              contactForm,
+              `Unable to send message: ${err.message}. Please verify the Node.js backend server is running.`,
+              'error'
+            );
+            if (typeof window.showToast === 'function') {
+              window.showToast('⚠️ Delivery Incomplete', 'Could not reach server. Message preserved.', true);
+            }
+          } finally {
+            setButtonLoading(submitBtn, false);
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

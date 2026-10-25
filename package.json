@@ -1,0 +1,32 @@
+{
+  "name": "grand-azure-hotel-backend",
+  "version": "1.0.0",
+  "description": "Node.js & Express REST API connected to MySQL for Grand Azure Hotel & Resort",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "setup-db": "node scripts/setup-db.js"
+  },
+  "keywords": [
+    "hotel",
+    "reservation",
+    "express",
+    "mysql",
+    "grand-azure"
+  ],
+  "author": "Grand Azure Development Team",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.5.0",
+    "mysql2": "^3.24.6"
+  }
+}

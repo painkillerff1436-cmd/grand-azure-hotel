@@ -1,0 +1,648 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Grand Azure Hotel & Resort – India's most luxurious 5-star hotel offering exclusive ocean-view rooms, world-class spa, fine dining, and unforgettable experiences.">
+  <title>Grand Azure Hotel & Resort – Luxury 5-Star Experience</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Internal CSS (page-specific styles) -->
+  <style>
+    /* Hero background with generated image */
+    .hero-bg {
+      background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&q=85');
+    }
+
+    /* Hero entrance animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .hero-badge  { animation: fadeInUp 0.6s ease 0.2s both; }
+    .hero-title  { animation: fadeInUp 0.6s ease 0.4s both; }
+    .hero-desc   { animation: fadeInUp 0.6s ease 0.6s both; }
+    .hero-actions{ animation: fadeInUp 0.6s ease 0.8s both; }
+    .availability-widget { animation: fadeInUp 0.6s ease 1s both; }
+
+    /* Featured room shine effect */
+    .featured-room-img {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+    .featured-room-img::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      animation: shine 4s ease infinite;
+    }
+    @keyframes shine {
+      0%   { left: -100%; }
+      50%  { left: 150%; }
+      100% { left: 150%; }
+    }
+
+    /* Awards strip */
+    .awards-strip {
+      background: linear-gradient(135deg, #d4af37, #f5d060);
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .award-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0a192f;
+      letter-spacing: 0.04em;
+    }
+
+    /* Floating features card on home */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .intro-image-wrap {
+      position: relative;
+    }
+
+    .intro-image-wrap img {
+      border-radius: 24px;
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+    }
+
+    .floating-stat-card {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: #0a192f;
+      color: #fff;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      border: 1px solid rgba(212,175,55,0.3);
+    }
+
+    .floating-stat-card .big-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: #d4af37;
+      font-weight: 700;
+    }
+
+    .floating-stat-card p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      margin: 0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Newsletter section */
+    .newsletter-section {
+      background: linear-gradient(135deg, #0a192f, #1a3a5c);
+      padding: 5rem 2.5rem;
+      text-align: center;
+    }
+
+    @media (max-width: 992px) {
+      .intro-grid { grid-template-columns: 1fr; }
+      .floating-stat-card { position: static; margin-top: 1.5rem; display: inline-block; }
+      .awards-strip { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════ HEADER & NAVIGATION ════════════ -->
+  <header id="main-header">
+    <nav class="navbar">
+      <div class="nav-logo">
+        <div class="logo-icon">🏨</div>
+        <div class="logo-text">
+          Grand Azure
+          <span>Hotel &amp; Resort</span>
+        </div>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="rooms.html">Rooms &amp; Suites</a></li>
+        <li><a href="reservation.html">Reservation</a></li>
+        <li><a href="food.html">Food Order</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="reservation.html" class="btn btn-gold">Book Now</a></li>
+      </ul>
+
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ════════════ HERO SECTION ════════════ -->
+    <section id="hero">
+      <div class="hero-bg"></div>
+
+      <div class="hero-content">
+        <div class="hero-badge">⭐ Forbes 5-Star Award 2025</div>
+
+        <h1 class="hero-title">
+          Experience <span class="gold">Unparalleled</span><br>
+          Luxury &amp; Elegance
+        </h1>
+
+        <p class="hero-desc">
+          Where azure oceans meet pristine luxury. Discover world-class hospitality
+          at India's most prestigious resort destination on the Malabar Coast.
+        </p>
+
+        <div class="hero-actions">
+          <a href="reservation.html" class="btn btn-gold btn-lg">Reserve Your Stay</a>
+          <a href="rooms.html" class="btn btn-outline btn-lg">Explore Rooms</a>
+        </div>
+
+        <!-- Availability Widget with HTML Form -->
+        <div class="availability-widget">
+          <h3>🔍 Check Availability</h3>
+          <form id="availability-form" action="reservation.html" method="get">
+            <div class="widget-grid">
+              <div class="widget-field">
+                <label for="w-checkin">Check-in Date</label>
+                <input type="date" id="w-checkin" name="checkin" required>
+              </div>
+              <div class="widget-field">
+                <label for="w-checkout">Check-out Date</label>
+                <input type="date" id="w-checkout" name="checkout" required>
+              </div>
+              <div class="widget-field">
+                <label for="w-guests">Guests</label>
+                <select id="w-guests" name="guests">
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                </select>
+              </div>
+              <div class="widget-field">
+                <label for="w-room">Room Type</label>
+                <select id="w-room" name="room_type">
+                  <option value="any">Any Type</option>
+                  <option value="deluxe">Deluxe Room</option>
+                  <option value="executive">Executive Suite</option>
+                  <option value="penthouse">Penthouse</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-gold" style="height: 48px; border-radius: 10px;">Book Now</button>
+            </div>
+
+            <!-- Hero stats inside form widget -->
+            <div class="hero-stats">
+              <div class="stat-item">
+                <div class="stat-number">150+</div>
+                <div class="stat-label">Luxury Rooms</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">25+</div>
+                <div class="stat-label">Years of Excellence</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Guest Satisfaction</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">5⭐</div>
+                <div class="stat-label">Forbes Rating</div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ AWARDS STRIP ════════════ -->
+    <div class="awards-strip">
+      <div class="award-item">🏆 Luxury Hotel Awards 2025</div>
+      <div class="award-item">🌍 TripAdvisor Travellers' Choice</div>
+      <div class="award-item">🌿 Green Key Certified</div>
+      <div class="award-item">💎 Leading Hotels of the World</div>
+      <div class="award-item">🍽️ Michelin-Trained Culinary Masters</div>
+    </div>
+
+    <!-- ════════════ ABOUT / INTRO ════════════ -->
+    <section class="section-pad bg-white">
+      <div class="container">
+        <div class="intro-grid">
+          <div class="intro-image-wrap">
+            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&q=80" alt="Grand Azure Resort Lobby" loading="lazy">
+            <div class="floating-stat-card">
+              <div class="big-num">150K+</div>
+              <p>Happy Guests Served</p>
+            </div>
+          </div>
+          <div>
+            <span class="section-label">About Our Resort</span>
+            <h2 class="section-title">A Sanctuary of <em>Timeless</em> Luxury</h2>
+            <div class="divider"></div>
+            <p>
+              Perched on the pristine shores of the Malabar Coast, Grand Azure Hotel &amp; Resort
+              is a landmark of architectural brilliance and unmatched hospitality. Since 1999, we
+              have redefined luxury travel for discerning guests from around the world.
+            </p>
+            <p>
+              Each of our 150 meticulously designed rooms and suites offers sweeping ocean vistas,
+              bespoke furnishings, and the finest amenities. Our award-winning team ensures every
+              moment of your stay exceeds expectation.
+            </p>
+            <ul style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem;">
+              <li style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.95rem; color: #475569;">
+                <span style="color: #d4af37; font-size: 1.1rem;">✦</span> Private beach with dedicated butler service
+              </li>
+              <li style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.95rem; color: #475569;">
+                <span style="color: #d4af37; font-size: 1.1rem;">✦</span> Award-winning Azure Spa &amp; Wellness Centre
+              </li>
+              <li style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.95rem; color: #475569;">
+                <span style="color: #d4af37; font-size: 1.1rem;">✦</span> Three signature restaurants &amp; rooftop bar
+              </li>
+              <li style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.95rem; color: #475569;">
+                <span style="color: #d4af37; font-size: 1.1rem;">✦</span> Helicopter transfers &amp; private yacht charters
+              </li>
+            </ul>
+            <a href="rooms.html" class="btn btn-dark">View All Rooms</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ════════════ FEATURED ROOMS ════════════ -->
+    <section class="section-pad bg-white">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 3rem;">
+          <span class="section-label">Accommodations</span>
+          <h2 class="section-title">Featured Rooms &amp; Suites</h2>
+          <div class="divider center"></div>
+        </div>
+        <div class="rooms-grid">
+
+          <article class="room-card">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" alt="Deluxe Ocean Room" loading="lazy">
+              <span class="room-badge">Best Seller</span>
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 2 Guests</span>
+                <span>📐 42 m²</span>
+                <span>🌊 Ocean View</span>
+              </div>
+              <h3>Deluxe Ocean Room</h3>
+              <p>Elegant room with floor-to-ceiling windows, private balcony, and stunning sea views.</p>
+              <div class="room-features">
+                <span class="feature-tag">King Bed</span>
+                <span class="feature-tag">Free WiFi</span>
+                <span class="feature-tag">Minibar</span>
+                <span class="feature-tag">Butler</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price">
+                  <span class="amount">₹8,500</span>
+                  <span class="per"> / night</span>
+                </div>
+                <a href="reservation.html?room=deluxe" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="room-card">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80" alt="Executive Suite" loading="lazy">
+              <span class="room-badge">Popular</span>
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 3 Guests</span>
+                <span>📐 78 m²</span>
+                <span>🌊 Sea Front</span>
+              </div>
+              <h3>Executive Suite</h3>
+              <p>Lavish suite with separate living area, private jacuzzi terrace, and premium amenities.</p>
+              <div class="room-features">
+                <span class="feature-tag">King Bed</span>
+                <span class="feature-tag">Jacuzzi</span>
+                <span class="feature-tag">Lounge</span>
+                <span class="feature-tag">Priority</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price">
+                  <span class="amount">₹14,000</span>
+                  <span class="per"> / night</span>
+                </div>
+                <a href="reservation.html?room=executive" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="room-card">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80" alt="Royal Penthouse" loading="lazy">
+              <!-- Inline CSS for premium badge -->
+              <span class="room-badge" style="background: linear-gradient(135deg, #1a1a2e, #374151); color: #d4af37;">Exclusive</span>
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 4 Guests</span>
+                <span>📐 220 m²</span>
+                <span>🌊 360° View</span>
+              </div>
+              <h3>Royal Penthouse</h3>
+              <p>The pinnacle of luxury — a two-storey private penthouse with personal chef &amp; butler.</p>
+              <div class="room-features">
+                <span class="feature-tag">2 Bedrooms</span>
+                <span class="feature-tag">Private Pool</span>
+                <span class="feature-tag">Chef</span>
+                <span class="feature-tag">Helipad</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price">
+                  <span class="amount">₹38,000</span>
+                  <span class="per"> / night</span>
+                </div>
+                <a href="reservation.html?room=penthouse" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+        <div class="text-center mt-4">
+          <a href="rooms.html" class="btn btn-outline btn-lg" style="color: #0a192f; border-color: #0a192f;">View All Rooms &amp; Suites →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ TESTIMONIALS ════════════ -->
+    <section class="section-pad bg-dark">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 3rem;">
+          <span class="section-label">Guest Reviews</span>
+          <h2 class="section-title">What Our Guests Say</h2>
+          <div class="divider center"></div>
+        </div>
+        <div class="testimonials-grid">
+
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <blockquote>"Absolutely breathtaking. The penthouse suite was beyond anything we imagined.
+            The private pool with ocean views at sunset — truly magical. Grand Azure has set a new
+            standard for luxury that no other hotel can match."</blockquote>
+            <div class="reviewer">
+              <div class="reviewer-avatar">RP</div>
+              <div>
+                <div class="reviewer-name">Riya Patel</div>
+                <div class="reviewer-loc">Mumbai • Honeymoon Stay</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <blockquote>"From the moment our helicopter landed on the resort pad, the service was
+            impeccable. The Michelin-starred restaurant served the finest seafood I have ever tasted.
+            Our family will return every year without question."</blockquote>
+            <div class="reviewer">
+              <div class="reviewer-avatar">AS</div>
+              <div>
+                <div class="reviewer-name">Arjun Sharma</div>
+                <div class="reviewer-loc">Delhi • Family Vacation</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <blockquote>"The Azure Spa is otherworldly. Three days of Ayurvedic treatments completely
+            rejuvenated me. The staff remembered every preference — my morning tea, pillow firmness,
+            everything. True 5-star personalized luxury."</blockquote>
+            <div class="reviewer">
+              <div class="reviewer-avatar">MK</div>
+              <div>
+                <div class="reviewer-name">Maya Krishnan</div>
+                <div class="reviewer-loc">Bangalore • Wellness Retreat</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ NEWSLETTER ════════════ -->
+    <section class="newsletter-section">
+      <div class="container">
+        <span class="section-label">Stay Connected</span>
+        <h2 style="color: #fff; margin-bottom: 0.75rem;">Subscribe for Exclusive Offers</h2>
+        <p style="color: rgba(255,255,255,0.65); margin-bottom: 2rem;">
+          Join 50,000+ subscribers and receive exclusive member rates, early access to seasonal
+          packages, and curated travel inspirations.
+        </p>
+        <!-- Newsletter form demonstrating email input -->
+        <form style="max-width: 520px; margin: 0 auto;" onsubmit="showToast('✅ Subscribed!', 'Welcome to Grand Azure Insider. Exclusive offers coming your way!'); return false;">
+          <div class="newsletter-form" style="display: flex; gap: 0.75rem;">
+            <input type="email"
+                   placeholder="Enter your email address"
+                   required
+                   maxlength="100"
+                   autocomplete="email"
+                   style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 0.85rem 1.2rem; color: #fff; font-family: 'Outfit', sans-serif; font-size: 0.95rem; outline: none;">
+            <button type="submit" class="btn btn-gold" style="border-radius: 10px; padding: 0 1.8rem;">Subscribe</button>
+          </div>
+          <p style="font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 0.75rem;">
+            🔒 No spam ever. Unsubscribe anytime. We respect your privacy.
+          </p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text" style="font-family: 'Playfair Display', serif; color: #fff; font-size: 1.5rem;">
+          Grand Azure
+          <span style="display: block; font-family: 'Outfit', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; color: #d4af37; text-transform: uppercase; margin-top: 0.2rem;">Hotel &amp; Resort</span>
+        </div>
+        <p>Redefining luxury hospitality on India's most pristine coastline since 1999. Every stay is a masterpiece of comfort and elegance.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook">📘</a>
+          <a href="#" class="social-link" aria-label="Instagram">📸</a>
+          <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-link" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rooms.html">Rooms &amp; Suites</a></li>
+          <li><a href="reservation.html">Make Reservation</a></li>
+          <li><a href="food.html">Food Order</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Experiences</h4>
+        <ul>
+          <li><a href="#">Azure Spa</a></li>
+          <li><a href="#">Fine Dining</a></li>
+          <li><a href="#">Water Sports</a></li>
+          <li><a href="#">Events &amp; Weddings</a></li>
+          <li><a href="#">Corporate Stays</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-bottom: 0.75rem;">Exclusive offers in your inbox.</p>
+        <form onsubmit="showToast('✅ Subscribed!','Thank you!'); return false;" class="newsletter-form" style="flex-direction: column;">
+          <input type="email" placeholder="Your email" required>
+          <button type="submit" style="margin-top: 0.5rem;">Subscribe</button>
+        </form>
+        <p style="font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-top: 0.75rem;">📍 Bekal, Kerala 671318, India</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Grand Azure Hotel &amp; Resort. All rights reserved.</p>
+      <div class="legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+        <a href="admin.html">Staff Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Real-time MySQL Room Availability Check
+    document.addEventListener('DOMContentLoaded', () => {
+      const availForm = document.getElementById('availability-form');
+      if (!availForm) return;
+
+      // Set min date to today
+      const today = new Date().toISOString().split('T')[0];
+      const checkinInput = document.getElementById('w-checkin');
+      const checkoutInput = document.getElementById('w-checkout');
+      if (checkinInput) checkinInput.min = today;
+      if (checkoutInput) checkoutInput.min = today;
+
+      availForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const checkin = checkinInput ? checkinInput.value : '';
+        const checkout = checkoutInput ? checkoutInput.value : '';
+        const guests = document.getElementById('w-guests')?.value || '2';
+        const roomType = document.getElementById('w-room')?.value || 'any';
+
+        if (!checkin || !checkout) {
+          alert('Please select both check-in and check-out dates.');
+          return;
+        }
+
+        if (checkout <= checkin) {
+          alert('Check-out date must be later than check-in date.');
+          return;
+        }
+
+        const submitBtn = availForm.querySelector('button[type="submit"]');
+        const origText = submitBtn ? submitBtn.innerHTML : 'Book Now';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '🔍 Checking...';
+        }
+
+        // Status container
+        let statusBox = document.getElementById('avail-status-box');
+        if (!statusBox) {
+          statusBox = document.createElement('div');
+          statusBox.id = 'avail-status-box';
+          statusBox.style.cssText = 'margin-top:1rem; padding:0.75rem 1rem; border-radius:8px; font-size:0.88rem; font-weight:600; text-align:center; display:none;';
+          availForm.appendChild(statusBox);
+        }
+
+        try {
+          if (window.AzureAPI && typeof window.AzureAPI.checkAvailability === 'function') {
+            const res = await window.AzureAPI.checkAvailability({ checkin, checkout, room_type: roomType, guests });
+            
+            if (res && res.success && res.available_count > 0) {
+              statusBox.style.display = 'block';
+              statusBox.style.background = '#f0fdf4';
+              statusBox.style.color = '#15803d';
+              statusBox.style.border = '1px solid #86efac';
+              statusBox.innerHTML = `✅ <strong>${res.available_count} Suite(s) Available!</strong> Redirecting to reservation...`;
+
+              setTimeout(() => {
+                window.location.href = `reservation.html?checkin=${encodeURIComponent(checkin)}&checkout=${encodeURIComponent(checkout)}&room_type=${encodeURIComponent(roomType)}&guests=${encodeURIComponent(guests)}`;
+              }, 600);
+              return;
+            } else if (res && res.available_count === 0) {
+              statusBox.style.display = 'block';
+              statusBox.style.background = '#fef2f2';
+              statusBox.style.color = '#b91c1c';
+              statusBox.style.border = '1px solid #fca5a5';
+              statusBox.innerHTML = `⚠️ No rooms of this category are available for ${res.nights || 1} night(s). Please try different dates or choose 'Any Type'.`;
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = origText;
+              }
+              return;
+            }
+          }
+        } catch (err) {
+          console.warn('API availability check warning (falling back to direct reservation):', err);
+        }
+
+        // Graceful fallback to reservation page with parameters preserved
+        window.location.href = `reservation.html?checkin=${encodeURIComponent(checkin)}&checkout=${encodeURIComponent(checkout)}&room_type=${encodeURIComponent(roomType)}&guests=${encodeURIComponent(guests)}`;
+      });
+    });
+  </script>
+</body>
+</html>

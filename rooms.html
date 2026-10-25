@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Explore the luxurious rooms and suites at Grand Azure Hotel & Resort – Deluxe Rooms, Executive Suites, Ocean Villas, and Royal Penthouse with stunning sea views.">
+  <title>Rooms & Suites – Grand Azure Hotel & Resort</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Internal CSS -->
+  <style>
+    /* Room page specific styles */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .rooms-grid .room-card {
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    /* Stagger animation via nth-child */
+    .rooms-grid .room-card:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .rooms-grid .room-card:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .rooms-grid .room-card:nth-child(3) {
+      animation-delay: 0.25s;
+    }
+
+    .rooms-grid .room-card:nth-child(4) {
+      animation-delay: 0.35s;
+    }
+
+    .rooms-grid .room-card:nth-child(5) {
+      animation-delay: 0.45s;
+    }
+
+    .rooms-grid .room-card:nth-child(6) {
+      animation-delay: 0.55s;
+    }
+
+    /* Full-width rooms page grid */
+    .rooms-page-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    /* Comparison table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+    }
+
+    .compare-table th {
+      background: #0a192f;
+      color: #d4af37;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1.2rem 1rem;
+      text-align: center;
+    }
+
+    .compare-table th:first-child {
+      text-align: left;
+    }
+
+    .compare-table td {
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #f0ebe0;
+      font-size: 0.88rem;
+      color: #475569;
+    }
+
+    .compare-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: #0a192f;
+    }
+
+    .compare-table tr:nth-child(even) td {
+      background: #fafaf8;
+    }
+
+    .compare-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .compare-table .check {
+      color: #22c55e;
+      font-size: 1.1rem;
+    }
+
+    .compare-table .cross {
+      color: #ef4444;
+      font-size: 1rem;
+    }
+
+    /* Gallery strip */
+    .gallery-strip {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 260px 260px;
+      gap: 1rem;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .gallery-strip .main-img {
+      grid-row: 1 / 3;
+    }
+
+    .gallery-strip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-strip img:hover {
+      transform: scale(1.04);
+    }
+
+    @media (max-width: 768px) {
+      .rooms-page-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-strip {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+
+      .gallery-strip .main-img {
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .rooms-page-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header id="main-header">
+    <nav class="navbar">
+      <div class="nav-logo">
+        <div class="logo-icon">🏨</div>
+        <div class="logo-text">
+          Grand Azure
+          <span>Hotel &amp; Resort</span>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="rooms.html" class="active">Rooms &amp; Suites</a></li>
+        <li><a href="reservation.html">Reservation</a></li>
+        <li><a href="food.html">Food Order</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="reservation.html" class="btn btn-gold">Book Now</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- PAGE BANNER -->
+    <section class="page-banner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span class="current">Rooms &amp; Suites</span>
+      </div>
+      <h1>Rooms &amp; Suites</h1>
+      <p>Choose from our signature curated accommodations — each a private sanctuary of luxury, comfort, and
+        breathtaking ocean views.</p>
+    </section>
+
+    <!-- GALLERY STRIP -->
+    <section class="section-pad-sm bg-light">
+      <div class="container">
+        <div class="gallery-strip">
+          <div class="main-img">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80" alt="Executive Suite"
+              loading="lazy">
+          </div>
+          <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&q=80" alt="Deluxe Room"
+            loading="lazy">
+          <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400&q=80" alt="Penthouse"
+            loading="lazy">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80" alt="Pool Villa"
+            loading="lazy">
+          <img src="https://images.unsplash.com/photo-1559508551-44bff1de756b?w=400&q=80" alt="Ocean View"
+            loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTER & ROOMS GRID -->
+    <section class="section-pad bg-white">
+      <div class="container-wide" style="padding: 0 2.5rem;">
+
+        <div class="text-center" style="margin-bottom: 2.5rem;">
+          <span class="section-label">Accommodations Portfolio</span>
+          <h2 class="section-title">Select Your Sanctuary</h2>
+          <div class="divider center"></div>
+        </div>
+
+        <!-- Filter bar (form controls) -->
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">All Rooms</button>
+          <button class="filter-btn" data-filter="deluxe">Deluxe</button>
+          <button class="filter-btn" data-filter="executive">Executive Suites</button>
+          <button class="filter-btn" data-filter="suite">Grand Suites</button>
+          <button class="filter-btn" data-filter="penthouse">Penthouse</button>
+          <button class="filter-btn" data-filter="ocean">Ocean Villas</button>
+        </div>
+
+        <!-- Rooms Grid -->
+        <div class="rooms-page-grid">
+
+          <!-- Room 1 -->
+          <article class="room-card" data-category="deluxe">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" alt="Deluxe Ocean Room"
+                loading="lazy">
+              <span class="room-badge">Best Seller</span>
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 2</span><span>📐 42 m²</span><span>🌊 Ocean View</span>
+              </div>
+              <h3>Deluxe Ocean Room</h3>
+              <p>Elegantly appointed room with floor-to-ceiling windows, private balcony, and magnificent ocean views.
+              </p>
+              <div class="room-features">
+                <span class="feature-tag">King Bed</span>
+                <span class="feature-tag">Free WiFi</span>
+                <span class="feature-tag">Minibar</span>
+                <span class="feature-tag">Butler</span>
+                <span class="feature-tag">Balcony</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price"><span class="amount">₹8,500</span><span class="per">/night</span></div>
+                <a href="reservation.html?room=deluxe" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Room 2 -->
+          <article class="room-card" data-category="deluxe">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=80"
+                alt="Deluxe Garden Room" loading="lazy">
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 2</span><span>📐 38 m²</span><span>🌿 Garden View</span>
+              </div>
+              <h3>Deluxe Garden Room</h3>
+              <p>Tranquil retreat surrounded by tropical gardens, featuring a private patio and spa bath.</p>
+              <div class="room-features">
+                <span class="feature-tag">Twin Beds</span>
+                <span class="feature-tag">Spa Bath</span>
+                <span class="feature-tag">Garden Patio</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price"><span class="amount">₹7,200</span><span class="per">/night</span></div>
+                <a href="reservation.html?room=deluxe_garden" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Room 3 -->
+          <article class="room-card" data-category="executive">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80" alt="Executive Suite">
+              <span class="room-badge">Popular</span>
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 3</span><span>📐 78 m²</span><span>🌊 Sea Front</span>
+              </div>
+              <h3>Executive Suite</h3>
+              <p>Lavish suite with separate living area, private jacuzzi terrace, and premium amenities.</p>
+              <div class="room-features">
+                <span class="feature-tag">King Bed</span>
+                <span class="feature-tag">Jacuzzi</span>
+                <span class="feature-tag">Lounge</span>
+                <span class="feature-tag">Priority</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price"><span class="amount">₹14,000</span><span class="per">/night</span></div>
+                <a href="reservation.html?room=executive" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Room 4 -->
+          <article class="room-card" data-category="suite">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80" alt="Grand Sea Suite">
+              <!-- Inline CSS for a special badge -->
+              <span class="room-badge"
+                style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;">Grand</span>
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 4</span><span>📐 120 m²</span><span>🌊 360° View</span>
+              </div>
+              <h3>Grand Sea Suite</h3>
+              <p>Two-bedroom suite with panoramic ocean views, dedicated butler, and private dining terrace.</p>
+              <div class="room-features">
+                <span class="feature-tag">2 Bedrooms</span>
+                <span class="feature-tag">Butler</span>
+                <span class="feature-tag">Dining</span>
+                <span class="feature-tag">Bar</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price"><span class="amount">₹22,000</span><span class="per">/night</span></div>
+                <a href="reservation.html?room=suite" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Room 5 -->
+          <article class="room-card" data-category="ocean">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1559508551-44bff1de756b?w=600&q=80" alt="Ocean Villa">
+              <span class="room-badge"
+                style="background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: #fff;">Villa</span>
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 4</span><span>📐 160 m²</span><span>🏊 Private Pool</span>
+              </div>
+              <h3>Ocean Villa</h3>
+              <p>Standalone beachfront villa with private plunge pool, outdoor shower, and direct beach access.</p>
+              <div class="room-features">
+                <span class="feature-tag">Plunge Pool</span>
+                <span class="feature-tag">Beach Access</span>
+                <span class="feature-tag">Kitchen</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price"><span class="amount">₹28,000</span><span class="per">/night</span></div>
+                <a href="reservation.html?room=ocean" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Room 6 -->
+          <article class="room-card" data-category="penthouse">
+            <div class="room-card-img">
+              <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80" alt="Royal Penthouse">
+              <span class="room-badge"
+                style="background: linear-gradient(135deg, #1a1a2e, #374151); color: #d4af37;">Exclusive</span>
+            </div>
+            <div class="room-card-body">
+              <div class="room-meta">
+                <span>👤 6</span><span>📐 320 m²</span><span>🌊 360° Panorama</span>
+              </div>
+              <h3>Royal Penthouse</h3>
+              <p>The ultimate luxury experience — two storeys, private infinity pool, personal chef &amp; butler.</p>
+              <div class="room-features">
+                <span class="feature-tag">3 Bedrooms</span>
+                <span class="feature-tag">Infinity Pool</span>
+                <span class="feature-tag">Chef</span>
+                <span class="feature-tag">Helipad</span>
+              </div>
+              <div class="room-card-footer">
+                <div class="room-price"><span class="amount">₹38,000</span><span class="per">/night</span></div>
+                <a href="reservation.html?room=penthouse" class="btn btn-gold">Book Now</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ ROOM COMPARISON MATRIX ════════════ -->
+    <section class="section-pad bg-light">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 3rem;">
+          <span class="section-label">Feature Matrix</span>
+          <h2 class="section-title">Compare Accommodations</h2>
+          <div class="divider center"></div>
+          <p class="section-subtitle">Explore room sizes, views, and bespoke inclusions across all our signature luxury suites.</p>
+        </div>
+
+        <div style="overflow-x: auto; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Features &amp; Inclusions</th>
+                <th>Deluxe Ocean</th>
+                <th>Deluxe Garden</th>
+                <th>Executive Suite</th>
+                <th>Grand Sea Suite</th>
+                <th>Ocean Villa</th>
+                <th>Royal Penthouse</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nightly Starting Rate</td>
+                <td><strong>₹8,500</strong></td>
+                <td><strong>₹7,200</strong></td>
+                <td><strong>₹14,000</strong></td>
+                <td><strong>₹22,000</strong></td>
+                <td><strong>₹28,000</strong></td>
+                <td><strong>₹38,000</strong></td>
+              </tr>
+              <tr>
+                <td>Room Size</td>
+                <td>42 m²</td>
+                <td>38 m²</td>
+                <td>78 m²</td>
+                <td>120 m²</td>
+                <td>160 m²</td>
+                <td>320 m²</td>
+              </tr>
+              <tr>
+                <td>Max Capacity</td>
+                <td>2 Guests</td>
+                <td>2 Guests</td>
+                <td>3 Guests</td>
+                <td>4 Guests</td>
+                <td>4 Guests</td>
+                <td>6 Guests</td>
+              </tr>
+              <tr>
+                <td>View</td>
+                <td>Ocean View</td>
+                <td>Tropical Garden</td>
+                <td>Sea Front</td>
+                <td>360° Panorama</td>
+                <td>Private Beach</td>
+                <td>Panoramic Sea</td>
+              </tr>
+              <tr>
+                <td>Private Balcony / Terrace</td>
+                <td><span class="check">✓</span></td>
+                <td><span class="check">✓</span> (Patio)</td>
+                <td><span class="check">✓</span></td>
+                <td><span class="check">✓</span></td>
+                <td><span class="check">✓</span></td>
+                <td><span class="check">✓</span> (Two Storeys)</td>
+              </tr>
+              <tr>
+                <td>Jacuzzi / Private Plunge Pool</td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="check">✓</span> (Jacuzzi)</td>
+                <td><span class="check">✓</span> (Jacuzzi)</td>
+                <td><span class="check">✓</span> (Plunge Pool)</td>
+                <td><span class="check">✓</span> (Infinity Pool)</td>
+              </tr>
+              <tr>
+                <td>Dedicated 24/7 Butler</td>
+                <td><span class="check">✓</span></td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="check">✓</span></td>
+                <td><span class="check">✓</span></td>
+                <td><span class="check">✓</span></td>
+                <td><span class="check">✓</span></td>
+              </tr>
+              <tr>
+                <td>Personal Private Chef</td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="check">✓</span></td>
+              </tr>
+              <tr>
+                <td>Complimentary Airport Transfer</td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="cross">✕</span></td>
+                <td><span class="check">✓</span> (Sedan)</td>
+                <td><span class="check">✓</span> (Luxury SUV)</td>
+                <td><span class="check">✓</span> (Helicopter)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA STRIP -->
+    <section style="background: linear-gradient(135deg, #d4af37, #f5d060); padding: 4rem 2.5rem; text-align: center;">
+      <h2 style="color: #0a192f; margin-bottom: 0.75rem;">Ready to Experience Luxury?</h2>
+      <p style="color: rgba(10,25,47,0.75); max-width: 500px; margin: 0 auto 2rem;">
+        Book directly with us for the best rates, complimentary upgrades, and exclusive perks.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="reservation.html" class="btn btn-dark btn-lg">Reserve Now</a>
+        <a href="contact.html" class="btn btn-outline btn-lg" style="border-color: #0a192f; color: #0a192f;">Talk to
+          Concierge</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text" style="font-family: 'Playfair Display', serif; color: #fff; font-size: 1.4rem;">
+          Grand Azure
+          <span
+            style="display: block; font-family: 'Outfit', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; color: #d4af37; text-transform: uppercase; margin-top: 0.2rem;">Hotel
+            &amp; Resort</span>
+        </div>
+        <p>Redefining luxury hospitality on India's most pristine coastline since 1999.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rooms.html">Rooms &amp; Suites</a></li>
+          <li><a href="reservation.html">Reservation</a></li>
+          <li><a href="food.html">Food Order</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Policies</h4>
+        <ul>
+          <li><a href="#">Cancellation Policy</a></li>
+          <li><a href="#">Pet Policy</a></li>
+          <li><a href="#">Check-in/out</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+914972222888">+91 497 222 2888</a></li>
+          <li><a href="mailto:stay@grandazure.com">stay@grandazure.com</a></li>
+          <li><a href="#">Bekal, Kerala 671318</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Grand Azure Hotel &amp; Resort. All rights reserved.</p>
+      <div class="legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="admin.html">Staff Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
